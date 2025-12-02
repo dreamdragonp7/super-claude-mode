@@ -33,7 +33,9 @@ Then proceed with the phase actions. This helps track progress through the workf
 > **Current**: Phase 1 - Bug Report Analysis
 > **Next**: Phase 2 - Codebase Exploration
 
-**Goal**: Understand the bug completely
+**Goal**: Understand WHAT the bug is (not WHERE in the code - that's Phase 2)
+
+**IMPORTANT**: This phase is about understanding the bug DESCRIPTION only. Do NOT read files, do NOT explore code, do NOT launch agents. Just gather information about what needs to be fixed.
 
 Initial request: $ARGUMENTS
 
@@ -41,33 +43,35 @@ Initial request: $ARGUMENTS
 
 1. Create a todo list with all phases.
 
-2. **Determine the bug context** (in order):
+2. **Get the bug description** (check in this order):
 
-   **A) If arguments provided**: Use `$ARGUMENTS` as the bug report.
+   **A) Arguments provided?** → Use `$ARGUMENTS` as the bug report.
 
-   **B) If NO arguments provided**: Scan the conversation above for actionable context.
+   **B) No arguments?** → Check the conversation history above for issues.
 
-   Look for:
-   - Issue lists with severity (Critical, Important, etc.)
+   The conversation may contain:
+   - Issue lists from pr-review (Critical, Important, Suggestions)
    - File:line references to problems
    - Error messages or stack traces
-   - Findings from review agents
-   - Any structured list of problems to fix
+   - Any structured list of problems
 
-   If actionable context found above:
-   - Extract all issues as your bug report
-   - List what you found and proceed (do NOT ask user for more info)
-   - Example: "I found 3 issues from the PR review above. Proceeding with those."
+   If you find issues above → Extract them as your bug list, announce what you found, proceed.
+   Example: "I found 3 issues from the review above: [list them]. Proceeding."
 
-   **C) If NO arguments AND NO actionable context above**: Ask the user for:
-   - Steps to reproduce the bug
-   - What was the expected behavior?
-   - What was the actual behavior?
-   - Are there any error messages, logs, or screenshots?
+   **C) No arguments AND nothing useful above?** → Ask the user:
+   - What's the bug?
+   - Steps to reproduce?
+   - Expected vs actual behavior?
+   - Any error messages?
 
-3. Summarize your understanding of the bug(s) and confirm with the user.
+3. Summarize the bug(s) you'll be hunting. Confirm with user.
 
-**When complete**: Proceed to Phase 2.
+**Phase 1 Output** (pass to Phase 2):
+- Clear list of bug(s) to investigate
+- Any file:line hints from the bug report (but don't read them yet)
+- Severity if known
+
+**When complete**: Proceed to Phase 2 with your bug list.
 
 ---
 
