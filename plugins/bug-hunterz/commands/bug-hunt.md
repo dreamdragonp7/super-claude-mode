@@ -98,10 +98,21 @@ Initial request: $ARGUMENTS
 
 **Actions**:
 1. Wait for explicit user approval.
-2. Read all relevant files identified in previous phases.
-3. Implement the chosen fix.
-4. Follow codebase conventions strictly.
-5. Update todos as you progress.
+2. Organize the approved fix by target files.
+3. Launch 1-3 `bug-implementer` agents in parallel. Each agent should:
+   - Receive the specific files it's responsible for
+   - Receive the approved fix details for those files
+   - Receive the root cause context
+   - Implement the fix following codebase conventions
+   - Run tests automatically after editing
+   - Return structured output with files modified, changes made, and test results
+
+   **Example agent prompts**:
+   - "Implement the fix in `src/auth/session.ts`: Add `await` before `validateToken()` on line 47. Root cause: race condition. Run tests after editing."
+   - "Implement the fix in `src/api/handlers.ts` and `src/api/middleware.ts`: Add null check before accessing `user.id`. Root cause: undefined user object. Run tests after editing."
+
+4. Review agent outputs and present results to user.
+5. Update todos as agents complete.
 
 ---
 
