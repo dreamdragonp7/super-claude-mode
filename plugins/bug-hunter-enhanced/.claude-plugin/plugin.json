@@ -1,0 +1,14 @@
+{
+  "name": "bug-hunter-enhanced",
+  "description": "Enhanced bug hunting workflow with implementation agent",
+  "version": "2.0.0",
+  "author": {"name": "acha"},
+  "commands": ["./commands/bug-hunt.md"],
+  "agents": [
+    "./agents/code-explorer.md",
+    "./agents/root-cause-analyzer.md",
+    "./agents/bug-fixer.md",
+    "./agents/fix-validator.md",
+    "./agents/bug-implementer.md"
+  ]
+}
