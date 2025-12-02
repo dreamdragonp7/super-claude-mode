@@ -14,7 +14,7 @@ Run a comprehensive pull request review using multiple specialized agents, each 
 
 At the START of each phase, ALWAYS announce:
 
-**Phase X of 7: [Phase Name]**
+**Phase X of 6: [Phase Name]**
 Next: Phase Y - [Next Phase Name]
 
 Then proceed with the phase actions. This helps track progress through the workflow.
@@ -33,7 +33,7 @@ Then proceed with the phase actions. This helps track progress through the workf
 
 ---
 
-## Phase 1 of 7: Scope Analysis
+## Phase 1 of 6: Scope Analysis
 
 > **Current**: Phase 1 - Scope Analysis
 > **Next**: Phase 2 - Agent Selection
@@ -51,7 +51,7 @@ Then proceed with the phase actions. This helps track progress through the workf
 
 ---
 
-## Phase 2 of 7: Agent Selection
+## Phase 2 of 6: Agent Selection
 
 > **Current**: Phase 2 - Agent Selection
 > **Next**: Phase 3 - Launch Agents
@@ -75,7 +75,7 @@ Then proceed with the phase actions. This helps track progress through the workf
 
 ---
 
-## Phase 3 of 7: Launch Agents
+## Phase 3 of 6: Launch Agents
 
 > **Current**: Phase 3 - Launch Agents
 > **Next**: Phase 4 - Aggregate Results
@@ -105,7 +105,7 @@ Then proceed with the phase actions. This helps track progress through the workf
 
 ---
 
-## Phase 4 of 7: Aggregate Results
+## Phase 4 of 6: Aggregate Results
 
 > **Current**: Phase 4 - Aggregate Results
 > **Next**: Phase 5 - Action Plan
@@ -126,10 +126,10 @@ Then proceed with the phase actions. This helps track progress through the workf
 
 ---
 
-## Phase 5 of 7: Action Plan
+## Phase 5 of 6: Action Plan
 
 > **Current**: Phase 5 - Action Plan
-> **Next**: Phase 6 - User Decision
+> **Next**: Phase 6 - Handoff to Bug Hunt
 
 **Goal**: Present prioritized issues to user
 
@@ -158,44 +158,52 @@ Then proceed with the phase actions. This helps track progress through the workf
 
 ---
 
-## Phase 6 of 7: User Decision
+## Phase 6 of 6: Handoff to Bug Hunt
 
-> **Current**: Phase 6 - User Decision
-> **Next**: Phase 7 - Summary
-
-**Goal**: Determine next steps with user
-
-**Actions**:
-1. Ask the user how they want to proceed:
-   - **Fix manually**: User will fix issues themselves
-   - **Get help**: Use bug-hunt or other tools to fix specific issues
-   - **Re-run specific review**: Run targeted review on specific aspect
-   - **Run code-simplifier**: Polish code after fixing issues
-   - **Done**: No more changes needed
-
-2. If user wants to re-run after fixes:
-   - Go back to Phase 1 with updated scope
-   - Focus only on previously identified issues
-
-**When complete**: Proceed to Phase 7.
-
----
-
-## Phase 7 of 7: Summary
-
-> **Current**: Phase 7 - Summary
+> **Current**: Phase 6 - Handoff to Bug Hunt
 > **Next**: Done!
 
-**Goal**: Document review completion
+**Goal**: Hand off findings to bug-hunt for verification and fixes
 
 **Actions**:
-1. Summarize what was reviewed
-2. List agents that ran
-3. Recap issues found and their status
-4. Note any remaining issues
-5. Recommend next steps (create PR, run more reviews, etc.)
+1. Summarize ALL findings from Phases 1-5:
+   - Files reviewed
+   - Agents that ran
+   - All issues found (Critical, Important, Suggestions)
+   - Specific file:line references
 
-**When complete**: PR review finished!
+2. Present the summary to the user
+
+3. Instruct the user to run:
+   ```
+   /bug-hunt:bug-hunt
+   ```
+
+4. Explain what bug-hunt will do:
+   - Verify all reported issues actually exist
+   - Explore the code to confirm root causes
+   - Propose and implement fixes
+   - Validate the fixes work
+   - Even if no issues were found, bug-hunt can verify the code is truly clean
+
+**Example output**:
+```
+## PR Review Complete - Ready for Bug Hunt
+
+**Files Reviewed**: 5 files
+**Agents Run**: code-reviewer, silent-failure-hunter, pr-test-analyzer
+
+**Issues Found**:
+- [Critical] Missing null check in auth.ts:47
+- [Critical] Silent failure in api-client.ts:92
+- [Important] Test coverage gap for validateUser()
+- [Suggestion] Consider extracting helper function in utils.ts:120
+
+Run `/bug-hunt:bug-hunt` to verify and fix these issues.
+Bug-hunt will confirm each issue exists and implement the fixes.
+```
+
+**When complete**: PR review finished! Bug-hunt takes over from here.
 
 ---
 
