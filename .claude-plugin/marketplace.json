@@ -8,10 +8,10 @@
   },
   "plugins": [
     {
-      "name": "bug-hunter-enhanced",
+      "name": "bug-hunterz",
       "description": "Enhanced bug hunting workflow with implementation agent",
       "version": "2.0.0",
-      "source": "./plugins/bug-hunter-enhanced",
+      "source": "./plugins/bug-hunterz",
       "category": "development"
     }
   ]
