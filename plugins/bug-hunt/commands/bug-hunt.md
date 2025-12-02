@@ -7,6 +7,17 @@ argument-hint: Optional bug description
 
 You are helping a developer find and fix a bug. Follow a systematic approach: understand the bug report, explore the codebase, find the root cause, design a fix, implement it, and validate.
 
+## Execution Rule
+
+At the START of each phase, ALWAYS announce:
+
+**Phase X of 7: [Phase Name]**
+Next: Phase Y - [Next Phase Name]
+
+Then proceed with the phase actions. This helps track progress through the workflow.
+
+---
+
 ## Core Principles
 
 - **Ask clarifying questions**: Identify ambiguities in the bug report. Ask for steps to reproduce, expected vs. actual behavior, and any relevant logs or error messages.
@@ -17,7 +28,10 @@ You are helping a developer find and fix a bug. Follow a systematic approach: un
 
 ---
 
-## Phase 1: Bug Report Analysis
+## Phase 1 of 7: Bug Report Analysis
+
+> **Current**: Phase 1 - Bug Report Analysis
+> **Next**: Phase 2 - Codebase Exploration
 
 **Goal**: Understand the bug completely
 
@@ -32,9 +46,14 @@ Initial request: $ARGUMENTS
    - Are there any error messages, logs, or screenshots?
 3. Summarize your understanding of the bug and confirm with the user.
 
+**When complete**: Proceed to Phase 2.
+
 ---
 
-## Phase 2: Codebase Exploration
+## Phase 2 of 7: Codebase Exploration
+
+> **Current**: Phase 2 - Codebase Exploration
+> **Next**: Phase 3 - Root Cause Analysis
 
 **Goal**: Understand the relevant parts of the code
 
@@ -52,9 +71,14 @@ Initial request: $ARGUMENTS
 2. Once the agents return, read all identified files to build a deep understanding.
 3. Present a summary of your findings.
 
+**When complete**: Proceed to Phase 3.
+
 ---
 
-## Phase 3: Root Cause Analysis
+## Phase 3 of 7: Root Cause Analysis
+
+> **Current**: Phase 3 - Root Cause Analysis
+> **Next**: Phase 4 - Solution Design
 
 **Goal**: Pinpoint the exact cause of the bug
 
@@ -72,9 +96,14 @@ Initial request: $ARGUMENTS
 2. Review the analyses and identify the most likely root cause.
 3. Present the root cause to the user and get their confirmation.
 
+**When complete**: Proceed to Phase 4.
+
 ---
 
-## Phase 4: Solution Design
+## Phase 4 of 7: Solution Design
+
+> **Current**: Phase 4 - Solution Design
+> **Next**: Phase 5 - Implementation
 
 **Goal**: Propose a clean and effective fix
 
@@ -88,9 +117,14 @@ Initial request: $ARGUMENTS
 3. Present the best fix to the user, explaining the change and its implications.
 4. **Ask the user for approval before implementing.**
 
+**When complete**: Proceed to Phase 5 (only after user approval).
+
 ---
 
-## Phase 5: Implementation
+## Phase 5 of 7: Implementation
+
+> **Current**: Phase 5 - Implementation
+> **Next**: Phase 6 - Validation
 
 **Goal**: Apply the fix to the code
 
@@ -114,9 +148,14 @@ Initial request: $ARGUMENTS
 4. Review agent outputs and present results to user.
 5. Update todos as agents complete.
 
+**When complete**: Proceed to Phase 6.
+
 ---
 
-## Phase 6: Validation
+## Phase 6 of 7: Validation
+
+> **Current**: Phase 6 - Validation
+> **Next**: Phase 7 - Summary
 
 **Goal**: Ensure the fix works and doesn't introduce new bugs
 
@@ -128,9 +167,14 @@ Initial request: $ARGUMENTS
 2. Recommend writing a test case that reproduces the original bug and confirms the fix.
 3. Consolidate findings and present them to the user.
 
+**When complete**: Proceed to Phase 7.
+
 ---
 
-## Phase 7: Summary
+## Phase 7 of 7: Summary
+
+> **Current**: Phase 7 - Summary
+> **Next**: Done!
 
 **Goal**: Document what was accomplished
 
@@ -141,5 +185,7 @@ Initial request: $ARGUMENTS
    - The fix that was implemented.
    - Files modified.
    - Suggested next steps (e.g., deployment, further testing).
+
+**When complete**: Bug hunt finished!
 
 ---
