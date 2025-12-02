@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "super-claude-plugins",
+  "name": "super-claude-mode",
   "version": "1.0.0",
   "description": "Custom enhanced plugins by acha",
   "owner": {
