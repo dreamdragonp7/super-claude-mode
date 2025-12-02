@@ -2,7 +2,7 @@
 name: bug-fixer
 description: Proposes a clean, effective, and safe code fix for a diagnosed bug.
 tools: Glob, Grep, LS, Read, NotebookRead, WebFetch, TodoWrite, WebSearch, KillShell, BashOutput
-model: sonnet
+model: opus
 color: green
 ---
 

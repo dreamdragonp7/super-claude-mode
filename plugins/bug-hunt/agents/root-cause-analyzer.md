@@ -2,7 +2,7 @@
 name: root-cause-analyzer
 description: Analyzes code and available information to form and investigate hypotheses about the root cause of a bug.
 tools: Glob, Grep, LS, Read, NotebookRead, WebFetch, TodoWrite, WebSearch, KillShell, BashOutput
-model: sonnet
+model: opus
 color: orange
 ---
 

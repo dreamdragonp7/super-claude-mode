@@ -2,7 +2,7 @@
 name: code-explorer
 description: Deeply analyzes code related to a bug report by tracing execution paths, mapping architecture, and understanding patterns to inform debugging efforts.
 tools: Glob, Grep, LS, Read, NotebookRead, WebFetch, TodoWrite, WebSearch, KillShell, BashOutput
-model: sonnet
+model: opus
 color: yellow
 ---
 

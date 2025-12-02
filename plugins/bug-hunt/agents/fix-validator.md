@@ -2,7 +2,7 @@
 name: fix-validator
 description: Reviews a proposed bug fix to ensure it is correct, safe, and adheres to project conventions.
 tools: Glob, Grep, LS, Read, NotebookRead, WebFetch, TodoWrite, WebSearch, KillShell, BashOutput
-model: sonnet
+model: opus
 color: red
 ---
 
