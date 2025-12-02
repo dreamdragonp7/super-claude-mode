@@ -1,0 +1,16 @@
+{
+  "name": "pr-review",
+  "version": "1.1.0",
+  "description": "Comprehensive PR review agents for comments, tests, error handling, type design, and code quality",
+  "author": {
+    "name": "acha"
+  },
+  "commands": ["./commands/review-pr.md"],
+  "agents": [
+    "./agents/code-reviewer.md",
+    "./agents/comment-analyzer.md",
+    "./agents/silent-failure-hunter.md",
+    "./agents/type-design-analyzer.md",
+    "./agents/pr-test-analyzer.md"
+  ]
+}

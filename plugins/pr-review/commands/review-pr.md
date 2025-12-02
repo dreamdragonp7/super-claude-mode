@@ -28,7 +28,6 @@ Then proceed with the phase actions. This helps track progress through the workf
 - **errors** - Check error handling for silent failures
 - **types** - Analyze type design and invariants (if new types added)
 - **code** - General code review for project guidelines
-- **simplify** - Simplify code for clarity and maintainability
 - **all** - Run all applicable reviews (default)
 
 ---
@@ -66,7 +65,6 @@ Then proceed with the phase actions. This helps track progress through the workf
    - **If comments/docs added**: `comment-analyzer`
    - **If error handling changed**: `silent-failure-hunter`
    - **If types added/modified**: `type-design-analyzer`
-   - **If user requested simplify**: `code-simplifier`
 3. Check if user requested specific aspects (override auto-detection)
 4. Check if user requested parallel execution
 5. Present the agents that will run and confirm with user
@@ -236,31 +234,24 @@ Bug-hunt will confirm each issue exists and implement the fixes.
 - Identifies critical gaps
 - Rates criticality 1-10
 
-**code-simplifier**:
-- Simplifies complex code
-- Improves clarity and readability
-- Applies project standards
-- **NOTE**: This agent can WRITE/EDIT code
-
 ---
 
 ## Usage Examples
 
 **Full review (default):**
 ```
-/pr-review-toolkit:review-pr
+/pr-review:review-pr
 ```
 
 **Specific aspects:**
 ```
-/pr-review-toolkit:review-pr tests errors
-/pr-review-toolkit:review-pr comments
-/pr-review-toolkit:review-pr simplify
+/pr-review:review-pr tests errors
+/pr-review:review-pr comments
 ```
 
 **Parallel review:**
 ```
-/pr-review-toolkit:review-pr all parallel
+/pr-review:review-pr all parallel
 ```
 
 ---
