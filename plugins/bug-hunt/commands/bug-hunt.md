@@ -38,13 +38,34 @@ Then proceed with the phase actions. This helps track progress through the workf
 Initial request: $ARGUMENTS
 
 **Actions**:
+
 1. Create a todo list with all phases.
-2. If the bug report is unclear, ask the user for:
-   - Steps to reproduce the bug.
+
+2. **Determine the bug context** (in order):
+
+   **A) If arguments provided**: Use `$ARGUMENTS` as the bug report.
+
+   **B) If NO arguments provided**: Scan the conversation above for actionable context.
+
+   Look for:
+   - Issue lists with severity (Critical, Important, etc.)
+   - File:line references to problems
+   - Error messages or stack traces
+   - Findings from review agents
+   - Any structured list of problems to fix
+
+   If actionable context found above:
+   - Extract all issues as your bug report
+   - List what you found and proceed (do NOT ask user for more info)
+   - Example: "I found 3 issues from the PR review above. Proceeding with those."
+
+   **C) If NO arguments AND NO actionable context above**: Ask the user for:
+   - Steps to reproduce the bug
    - What was the expected behavior?
    - What was the actual behavior?
    - Are there any error messages, logs, or screenshots?
-3. Summarize your understanding of the bug and confirm with the user.
+
+3. Summarize your understanding of the bug(s) and confirm with the user.
 
 **When complete**: Proceed to Phase 2.
 
