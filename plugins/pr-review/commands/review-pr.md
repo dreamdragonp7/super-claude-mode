@@ -21,6 +21,14 @@ Then proceed with the phase actions. This helps track progress through the workf
 
 ---
 
+## Continuous Execution Rule
+
+Continue through ALL phases (1→6) without stopping for confirmation.
+Do NOT ask "should I proceed?", "confirm?", or "which approach?" between phases.
+Just proceed automatically from one phase to the next.
+
+---
+
 ## Available Review Aspects
 
 - **comments** - Analyze code comment accuracy and maintainability
@@ -59,17 +67,16 @@ Then proceed with the phase actions. This helps track progress through the workf
 
 **Actions**:
 1. Review the changed files from Phase 1
-2. Select applicable agents:
+2. Auto-select applicable agents based on changes:
    - **Always**: `code-reviewer` (general quality)
    - **If test files changed**: `pr-test-analyzer`
    - **If comments/docs added**: `comment-analyzer`
    - **If error handling changed**: `silent-failure-hunter`
    - **If types added/modified**: `type-design-analyzer`
-3. Check if user requested specific aspects (override auto-detection)
-4. Check if user requested parallel execution
-5. Present the agents that will run and confirm with user
+3. If user provided specific aspects in arguments, use those instead of auto-detection
+4. Announce which agents will run (do NOT ask for confirmation)
 
-**When complete**: Proceed to Phase 3.
+**When complete**: Proceed immediately to Phase 3.
 
 ---
 
@@ -81,25 +88,14 @@ Then proceed with the phase actions. This helps track progress through the workf
 **Goal**: Run the selected review agents
 
 **Actions**:
-1. Launch agents based on user preference:
-
-   **Sequential approach** (default):
-   - Launch one agent at a time
-   - Wait for completion before next
-   - Good for interactive review
-
-   **Parallel approach** (if user requested):
-   - Launch all agents simultaneously
-   - Faster for comprehensive review
-
+1. Launch ALL selected agents in parallel for speed
 2. Each agent receives:
    - The git diff or changed files
    - The scope of review
    - Project context (CLAUDE.md if exists)
-
 3. Wait for all agents to complete
 
-**When complete**: Proceed to Phase 4.
+**When complete**: Proceed immediately to Phase 4.
 
 ---
 
