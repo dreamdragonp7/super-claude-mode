@@ -24,6 +24,7 @@ Then proceed with the phase actions. This helps track progress through the workf
 - **Understand before acting**: Read and comprehend existing code before attempting a fix.
 - **Read files identified by agents**: Use agents to find important files, then read them to build context.
 - **Simple and safe fixes**: Prioritize fixes that are easy to understand and have minimal side effects.
+- **Leave no stone unturned**: Address ALL confirmed issues regardless of complexity. Never defer or skip issues because they seem difficult, risky, or time-consuming. Every issue gets fixed.
 - **Use TodoWrite**: Track all progress throughout.
 
 ---
@@ -142,6 +143,8 @@ Initial request: $ARGUMENTS
 3. Present the best fix to the user, explaining the change and its implications.
 4. **Ask the user for approval before implementing.**
 
+**IMPORTANT**: Design fixes for ALL confirmed issues from Phase 3. Do NOT propose to defer, skip, or de-prioritize any issues due to complexity, risk, or effort. Every confirmed issue gets a fix proposal.
+
 **When complete**: Proceed to Phase 5 (only after user approval).
 
 ---
@@ -163,15 +166,17 @@ Initial request: $ARGUMENTS
    - Receive the approved fix details for those files
    - Receive the root cause context
    - Implement the fix following codebase conventions
-   - Run tests automatically after editing
+   - Run tests after editing (if tests exist in the project)
    - Return structured output with files modified, changes made, and test results
 
    **Example agent prompts**:
-   - "Implement the fix in `src/auth/session.ts`: Add `await` before `validateToken()` on line 47. Root cause: race condition. Run tests after editing."
-   - "Implement the fix in `src/api/handlers.ts` and `src/api/middleware.ts`: Add null check before accessing `user.id`. Root cause: undefined user object. Run tests after editing."
+   - "Implement the fix in `src/auth/session.ts`: Add `await` before `validateToken()` on line 47. Root cause: race condition. Run tests after editing if available."
+   - "Implement the fix in `src/api/handlers.ts` and `src/api/middleware.ts`: Add null check before accessing `user.id`. Root cause: undefined user object. Run tests after editing if available."
 
 4. Review agent outputs and present results to user.
 5. Update todos as agents complete.
+
+**IMPORTANT**: Implement fixes for ALL approved issues. Do not selectively implement only the "easy" ones while skipping complex fixes.
 
 **When complete**: Proceed to Phase 6.
 
