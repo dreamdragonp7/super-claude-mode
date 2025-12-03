@@ -20,6 +20,13 @@
       "version": "1.1.0",
       "source": "./plugins/pr-review",
       "category": "development"
+    },
+    {
+      "name": "dev-flow",
+      "description": "Comprehensive 12-phase feature development workflow with specialized agents for discovery, design, implementation, and quality assurance",
+      "version": "1.0.0",
+      "source": "./plugins/dev-flow",
+      "category": "development"
     }
   ]
 }

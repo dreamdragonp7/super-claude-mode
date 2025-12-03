@@ -1,0 +1,21 @@
+{
+  "name": "dev-flow",
+  "version": "1.0.0",
+  "description": "Comprehensive 12-phase feature development workflow with specialized agents for discovery, design, implementation, and quality assurance",
+  "author": {
+    "name": "acha",
+    "email": "acha@super-claude-mode"
+  },
+  "keywords": ["feature-development", "architecture", "implementation", "quality", "workflow"],
+  "license": "MIT",
+  "commands": ["./commands/dev-flow.md"],
+  "agents": [
+    "./agents/code-explorer.md",
+    "./agents/code-architect.md",
+    "./agents/code-reviewer.md",
+    "./agents/backend-architect.md",
+    "./agents/graphql-architect.md",
+    "./agents/tdd-orchestrator.md",
+    "./agents/feature-writer.md"
+  ]
+}
