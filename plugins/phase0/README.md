@@ -1,8 +1,10 @@
-# Phase 0 Plugin v3.0
+# Phase 0 Plugin v4.0
 
 Pre-flight exploration, pattern enforcement, and context management for Super Claude Mode.
 
-**v3.0 introduces the Two-File System**: `patterns.yaml` (THE IDEAL) + `ARCHITECTURE.md` (THE REALITY).
+**v4.0 introduces Mandatory Visualization Tools**: madge, graphviz, depcruise now REQUIRED for `/audit`. Visual dependency graphs + Mermaid diagrams in ARCHITECTURE.md.
+
+**v3.0 introduced the Two-File System**: `patterns.yaml` (THE IDEAL) + `ARCHITECTURE.md` (THE REALITY).
 
 ## What Is Phase 0?
 
@@ -201,6 +203,17 @@ All Super Claude Mode plugins now read patterns.yaml:
 | pr-review | Enforces patterns in reviews |
 
 ## Changelog
+
+### v4.0.0 (2025-01-02)
+
+- **Mandatory Visualization Tools**: madge, graphviz, depcruise now REQUIRED
+- **Visual Dependency Graphs**: docs/dep-graph.svg (madge), docs/dep-cruise.svg (depcruise)
+- **Mermaid Diagrams**: System architecture diagrams embedded in ARCHITECTURE.md
+- **Intermediate JSON**: /tmp/arch-audit.json for scripting integration
+- **Git Diff**: Shows changes since last audit
+- **Tool Verification**: Aborts if required tools missing (no fallbacks)
+- **4 Parallel Agents**: Added boundary-validator to scanning phase
+- **9-Phase Workflow**: Tool verification → Scanning → Tools → JSON → ARCHITECTURE.md → Compare → Diff → Report
 
 ### v3.0.0 (2025-01-02)
 

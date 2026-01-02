@@ -1,7 +1,7 @@
 {
   "name": "phase0",
-  "version": "4.2.0",
-  "description": "Pre-flight exploration, pattern enforcement, and context management. The brain of Super Claude Mode - uses patterns.yaml (THE IDEAL) + ARCHITECTURE.md (THE REALITY) two-file system. v4.0 adds mandatory visualization tools (madge, graphviz, depcruise).",
+  "version": "4.2.1",
+  "description": "Pre-flight exploration, pattern enforcement, and context management. The brain of Super Claude Mode - uses patterns.yaml (THE IDEAL) + ARCHITECTURE.md (THE REALITY) two-file system. v4.2.1 fixes Hygen template extensions (.t → .ejs.t).",
   "author": {
     "name": "acha",
     "email": "acha@super-claude-mode"
@@ -28,7 +28,7 @@
     "./commands/planning-sync.md",
     "./commands/planning-validate.md",
     "./commands/audit-run.md",
-    "./commands/audit-fix.md",
+    "./commands/audit-repair.md",
     "./commands/audit-inventory.md",
     "./commands/audit-templates.md",
     "./commands/focus.md",
@@ -40,14 +40,22 @@
     "./agents/test-finder.md",
     "./agents/context-synthesizer.md",
     "./agents/pattern-checker.md",
-    "./agents/boundary-validator.md"
+    "./agents/boundary-validator.md",
+    "./agents/template-scanner.md",
+    "./agents/template-matcher.md",
+    "./agents/repair-analyzer.md",
+    "./agents/repair-planner.md",
+    "./agents/repair-executor.md",
+    "./agents/repair-verifier.md"
   ],
   "skills": [
     "./skills/phase0-guide/SKILL.md",
     "./skills/patterns-yaml/SKILL.md",
     "./skills/ultra-scientist/SKILL.md",
     "./skills/task-capsules/SKILL.md",
-    "./skills/repo-atlas/SKILL.md"
+    "./skills/repo-atlas/SKILL.md",
+    "./skills/global-templates/SKILL.md",
+    "./skills/template-patterns/SKILL.md"
   ],
   "hooks": "./hooks/hooks.json"
 }
