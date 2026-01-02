@@ -1,0 +1,33 @@
+# Feature Registry Template
+# Copy this to your project root as features.yaml
+# This is the canonical source of truth for feature → file mapping
+
+version: "1.0"
+updated: "YYYY-MM-DD"
+
+features:
+  # Example feature entry
+  - id: example-feature
+    name: Example Feature
+    description: Brief description of what this feature does
+    status: stable  # stable | development | deprecated
+    owner: team-name  # Optional: who owns this
+    folders:
+      - src/features/example/
+    entrypoints:
+      - src/features/example/index.ts
+      - src/api/routes/example.py
+    contracts:
+      - ExampleRequest
+      - ExampleResponse
+    tests:
+      - tests/unit/test_example.py
+      - tests/__tests__/example.test.tsx
+    notes: |
+      Any important notes about this feature.
+      Can span multiple lines.
+
+  # Add more features below...
+  # - id: another-feature
+  #   name: Another Feature
+  #   ...

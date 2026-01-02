@@ -27,6 +27,13 @@
       "version": "1.0.0",
       "source": "./plugins/dev-flow",
       "category": "development"
+    },
+    {
+      "name": "phase0",
+      "description": "Pre-flight exploration, pattern enforcement, and context management. Includes /audit, /conform, /inventory for codebase quality.",
+      "version": "2.0.0",
+      "source": "./plugins/phase0",
+      "category": "development"
     }
   ]
 }

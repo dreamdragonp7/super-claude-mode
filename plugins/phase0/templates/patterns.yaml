@@ -1,0 +1,272 @@
+# patterns.yaml - Single Source of Truth for Codebase Patterns
+# Copy this to your project root and customize for your architecture
+# Used by: /audit, /conform, import-linter, eslint-plugin-boundaries
+
+version: "1.0"
+updated: "2026-01-02"
+
+# =============================================================================
+# PYTHON LAYER CONTRACTS (import-linter)
+# Defines which Python modules can import from which
+# =============================================================================
+
+python_layers:
+  # Layer architecture - lower layers cannot import from higher layers
+  - name: "Core Business Logic Isolation"
+    type: layers
+    description: "core/ is pure business logic, no framework dependencies"
+    layers:
+      - core.features
+      - core.calendar
+      - core.ssp
+      - core.training
+    rules:
+      - "core cannot import from apps, infrastructure, or lantern"
+
+  - name: "ML Model Isolation"
+    type: layers
+    description: "lantern/ can import from core/ but not apps/"
+    layers:
+      - lantern.trm
+      - lantern.interface
+    rules:
+      - "lantern can import from core, config"
+      - "lantern cannot import from apps"
+
+  - name: "Infrastructure Layer"
+    type: layers
+    description: "infrastructure/ provides external service integrations"
+    layers:
+      - infrastructure.database
+      - infrastructure.data_providers
+      - infrastructure.training
+    rules:
+      - "infrastructure can import from core, config"
+      - "infrastructure cannot import from apps, lantern"
+
+  - name: "API Layer"
+    type: layers
+    description: "apps/api can import from all lower layers"
+    layers:
+      - apps.api
+    rules:
+      - "apps.api can import from core, infrastructure, lantern, config"
+
+# Forbidden imports (explicit blockers)
+python_forbidden:
+  - name: "No Database in TRM"
+    source: lantern.trm
+    target: infrastructure.database
+    reason: "ML model should be pure, no DB dependencies"
+
+  - name: "No API in Core"
+    source: core
+    target: apps.api
+    reason: "Core business logic must not depend on delivery layer"
+
+# =============================================================================
+# TYPESCRIPT BOUNDARIES (eslint-plugin-boundaries)
+# Defines module boundaries for TypeScript packages
+# =============================================================================
+
+typescript_boundaries:
+  # Package definitions
+  packages:
+    - name: shared
+      pattern: "packages/shared/**"
+      type: library
+
+    - name: web
+      pattern: "apps/web/**"
+      type: application
+
+    - name: mobile
+      pattern: "apps/mobile/**"
+      type: application
+
+  # Allowed import rules
+  rules:
+    - from: [shared]
+      to: [web, mobile]
+      allow: true
+      reason: "Shared package exports to all apps"
+
+    - from: [web]
+      to: [mobile]
+      allow: false
+      reason: "Apps cannot import from each other"
+
+    - from: [mobile]
+      to: [web]
+      allow: false
+      reason: "Apps cannot import from each other"
+
+# =============================================================================
+# COMPONENT PATTERNS (for /audit and /conform)
+# Defines what files should exist for each component type
+# =============================================================================
+
+component_patterns:
+  # React component in web app
+  react_component:
+    location: "apps/web/src/components/**/"
+    naming: PascalCase
+    required:
+      - pattern: "{Name}.tsx"
+        must_contain:
+          - "interface.*Props"
+          - "export (function|const)"
+      - pattern: "index.ts"
+        must_contain:
+          - "export.*from"
+    optional:
+      - pattern: "{Name}.test.tsx"
+      - pattern: "{Name}.stories.tsx"
+
+  # React Native component
+  react_native_component:
+    location: "apps/mobile/components/**/"
+    naming: PascalCase
+    required:
+      - pattern: "{Name}.tsx"
+        must_contain:
+          - "export (function|const)"
+    optional:
+      - pattern: "{Name}.test.tsx"
+
+  # FastAPI router/endpoint
+  api_endpoint:
+    location: "apps/api/routers/"
+    naming: snake_case
+    required:
+      - pattern: "{name}.py"
+        must_contain:
+          - "router = APIRouter"
+          - "@router\\."
+      - pattern: "../schemas/{name}.py"
+        must_contain:
+          - "class.*BaseModel"
+    optional:
+      - pattern: "../../tests/api/test_{name}.py"
+        must_contain:
+          - "def test_"
+
+  # Python module with protocol
+  python_protocol_module:
+    location: "core/**/"
+    naming: snake_case
+    required:
+      - pattern: "__init__.py"
+      - pattern: "protocols.py"
+        must_contain:
+          - "@runtime_checkable"
+          - "class.*Protocol"
+    optional:
+      - pattern: "*.py"
+
+  # Custom React hook
+  react_hook:
+    location: "apps/web/src/hooks/"
+    naming: camelCase
+    required:
+      - pattern: "use{Name}.ts"
+        must_contain:
+          - "export function use"
+    optional:
+      - pattern: "use{Name}.test.ts"
+
+  # Zustand store
+  zustand_store:
+    location: "packages/shared/src/stores/"
+    naming: camelCase
+    required:
+      - pattern: "{name}Store.ts"
+        must_contain:
+          - "import.*create.*from 'zustand'"
+          - "export const use"
+    optional:
+      - pattern: "{name}Store.test.ts"
+
+# =============================================================================
+# NAMING CONVENTIONS
+# =============================================================================
+
+naming_conventions:
+  python:
+    files: snake_case
+    classes: PascalCase
+    functions: snake_case
+    constants: SCREAMING_SNAKE_CASE
+    modules: snake_case
+
+  typescript:
+    files:
+      components: PascalCase
+      hooks: camelCase (use prefix)
+      utilities: camelCase
+      types: PascalCase
+    classes: PascalCase
+    functions: camelCase
+    constants: SCREAMING_SNAKE_CASE
+    types: PascalCase
+    interfaces: PascalCase (I prefix optional)
+
+# =============================================================================
+# SOURCE OF TRUTH FILES
+# Files that define critical contracts - changes here ripple everywhere
+# =============================================================================
+
+source_of_truth:
+  - path: "core/features/schema.py"
+    description: "THE 83 Lantern features"
+    warning: "Changes require tokenizer.py update"
+
+  - path: "lantern/trm/core/tokenizer.py"
+    description: "7 feature groups with validated indices"
+    warning: "Must match schema.py exactly"
+
+  - path: "lantern/interface.py"
+    description: "LanternModel Protocol"
+    warning: "All model implementations must conform"
+
+  - path: "core/protocols.py"
+    description: "SSP core protocols"
+    warning: "Data providers must implement these"
+
+  - path: "config/settings.py"
+    description: "Centralized configuration"
+    warning: "Import settings singleton, don't instantiate"
+
+  - path: "packages/shared/src/types.ts"
+    description: "Shared TypeScript types"
+    warning: "Keep in sync with Python schemas"
+
+# =============================================================================
+# ANTI-PATTERNS TO DETECT
+# =============================================================================
+
+anti_patterns:
+  - name: "Relative imports in Python"
+    pattern: "from \\.\\."
+    severity: error
+    message: "Use absolute imports from project root"
+
+  - name: "Any type in TypeScript"
+    pattern: ": any"
+    severity: warning
+    message: "Prefer explicit types or unknown"
+
+  - name: "Console.log in production"
+    pattern: "console\\.(log|debug|info)"
+    severity: warning
+    message: "Remove debug statements or use proper logging"
+
+  - name: "Hardcoded API keys"
+    pattern: "(api_key|apiKey|API_KEY)\\s*=\\s*['\"][^'\"]+['\"]"
+    severity: error
+    message: "Use environment variables for secrets"
+
+  - name: "TODO without ticket"
+    pattern: "TODO(?!.*#\\d+)"
+    severity: info
+    message: "Link TODOs to issue tracker"
