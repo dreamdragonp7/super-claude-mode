@@ -1,6 +1,6 @@
 {
   "name": "phase0",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "Pre-flight exploration, pattern enforcement, and context management. The brain of Super Claude Mode - uses patterns.yaml (THE IDEAL) + ARCHITECTURE.md (THE REALITY) two-file system. v4.0 adds mandatory visualization tools (madge, graphviz, depcruise).",
   "author": {
     "name": "acha",
@@ -27,7 +27,10 @@
     "./commands/planning-add.md",
     "./commands/planning-sync.md",
     "./commands/planning-validate.md",
-    "./commands/audit.md",
+    "./commands/audit-run.md",
+    "./commands/audit-fix.md",
+    "./commands/audit-inventory.md",
+    "./commands/audit-templates.md",
     "./commands/focus.md",
     "./commands/atlas.md"
   ],

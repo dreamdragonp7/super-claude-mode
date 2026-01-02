@@ -213,7 +213,7 @@ docs/NOW.md
 ├── Active PRs: 2
 └── Blockers: none
 
-Run /audit for detailed compliance check.
+Run /audit-run for detailed compliance check.
 ───────────────────────────────────────
 ```
 
@@ -224,7 +224,7 @@ Run /audit for detailed compliance check.
 | Command | Output | Purpose |
 |---------|--------|---------|
 | /atlas | docs/*.md | Human-readable project docs |
-| /audit | ARCHITECTURE.md | Machine-readable reality snapshot |
-| /planning | patterns.yaml | Ideal state definition |
+| /audit-run | ARCHITECTURE.md | Machine-readable reality snapshot |
+| /planning-view | patterns.yaml | Ideal state definition |
 
 **Atlas is for DOCUMENTATION. Audit is for COMPLIANCE.**

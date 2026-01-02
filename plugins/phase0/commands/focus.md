@@ -145,7 +145,7 @@ NEXT STEPS (suggested)
 | "Where's the error handling?" | /focus |
 | "Fix the auth bug" | /phase0 → /bug-hunt |
 | "What tests cover payments?" | /focus |
-| "Add payment feature" | /phase0 → /dev-flow |
+| "Add payment feature" | /phase0 -> /dev-flow |
 
 **Rule of thumb:**
 - /focus = Understanding (no side effects)

@@ -73,7 +73,7 @@ Anti-Patterns: X defined
 
 ───────────────────────────────────────
 Last Audit: [timestamp or "Never"]
-Compliance: [X% or "Unknown - run /audit"]
+Compliance: [X% or "Unknown - run /audit-run"]
 ───────────────────────────────────────
 ```
 

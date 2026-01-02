@@ -81,7 +81,7 @@ This feature will need approximately X files.
 
 **If NOT found:**
 - Inform user: "No patterns.yaml found."
-- Offer: "Run `/planning sync` to auto-generate from codebase?"
+- Offer: "Run `/planning-sync` to auto-generate from codebase?"
 - If user declines, continue without pattern enforcement
 
 ---
@@ -110,7 +110,7 @@ Current codebase context:
 ```
 
 **If NOT found or stale:**
-- Inform user: "No ARCHITECTURE.md found (or stale). Consider running /audit first."
+- Inform user: "No ARCHITECTURE.md found (or stale). Consider running /audit-run first."
 - Offer to continue anyway
 
 ---

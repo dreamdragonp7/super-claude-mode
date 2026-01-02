@@ -91,8 +91,8 @@ After user confirms selections:
 
 Next steps:
 1. Review patterns.yaml and customize as needed
-2. Run /audit to check current compliance
-3. Run /audit fix to generate missing files
+2. Run /audit-run to check current compliance
+3. Run /audit-fix to generate missing files
 ```
 
 ---
