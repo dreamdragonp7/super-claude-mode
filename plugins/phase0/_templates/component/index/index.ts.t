@@ -1,0 +1,5 @@
+---
+to: <%= dir %>/index.ts
+---
+export { <%= name %> } from './<%= name %>'
+export type { <%= name %>Props } from './<%= name %>'

@@ -26,6 +26,30 @@ Then proceed with the phase actions. This helps track progress through the workf
 - **Simple and elegant**: Prioritize readable, maintainable, architecturally sound code.
 - **Leave no stone unturned**: Address ALL design considerations regardless of complexity.
 - **Use TodoWrite**: Track all progress throughout.
+- **Follow patterns.yaml**: Respect project boundaries and component patterns.
+
+---
+
+## Pre-Phase: patterns.yaml Check
+
+**Before Phase 1, silently check for patterns.yaml**:
+
+1. Use Glob to check if `patterns.yaml` exists in the project root.
+
+2. **If found**:
+   - Read it to understand project structure
+   - Note `source_of_truth` files for Phase 2
+   - Note `component_patterns` for Phase 4
+   - Note `boundaries` for architecture decisions
+   - Briefly mention: "Using patterns.yaml for project conventions."
+
+3. **If not found**:
+   - Continue without it
+   - Briefly mention: "No patterns.yaml found. Consider running /planning to define project patterns."
+
+4. Check if ARCHITECTURE.md exists - read for current reality snapshot.
+
+**Then proceed immediately to Phase 1.**
 
 ---
 

@@ -36,7 +36,30 @@ Just proceed automatically from one phase to the next.
 - **errors** - Check error handling for silent failures
 - **types** - Analyze type design and invariants (if new types added)
 - **code** - General code review for project guidelines
+- **patterns** - Check patterns.yaml compliance (boundaries, anti-patterns)
 - **all** - Run all applicable reviews (default)
+
+---
+
+## Pre-Phase: patterns.yaml Check
+
+**Before Phase 1, silently check for patterns.yaml**:
+
+1. Use Glob to check if `patterns.yaml` exists in the project root.
+
+2. **If found**:
+   - Read it to understand project conventions
+   - Note `boundaries` for boundary violation review
+   - Note `anti_patterns` for anti-pattern detection
+   - Note `component_patterns` for structure compliance
+   - Briefly mention: "Using patterns.yaml for project conventions."
+   - **Add pattern compliance to review scope**
+
+3. **If not found**:
+   - Continue without it
+   - Briefly mention: "No patterns.yaml found."
+
+**Then proceed immediately to Phase 1.**
 
 ---
 

@@ -1,0 +1,71 @@
+# ==============================================================================
+# import-linter configuration
+# ==============================================================================
+# This file defines Python import boundaries that import-linter will enforce.
+# Copy this to your project root and customize.
+#
+# Install: pip install import-linter
+# Run: import-linter
+#
+# This integrates with patterns.yaml - /audit uses this when available.
+
+[importlinter]
+root_package = your_package_name
+
+# ==============================================================================
+# Layer Architecture
+# ==============================================================================
+# Enforces that dependencies flow inward:
+#   apps -> core -> (nothing)
+#   apps -> infrastructure -> core
+#   infrastructure -> core
+
+[importlinter:contract:layers]
+name = Application layer boundaries
+type = layers
+layers =
+    apps
+    infrastructure
+    core
+
+# ==============================================================================
+# Core Independence
+# ==============================================================================
+# Core should be pure business logic with no external dependencies.
+
+[importlinter:contract:core-independence]
+name = Core module independence
+type = forbidden
+source_modules =
+    core
+forbidden_modules =
+    apps
+    infrastructure
+
+# ==============================================================================
+# Infrastructure Independence
+# ==============================================================================
+# Infrastructure should not depend on apps.
+
+[importlinter:contract:infrastructure-independence]
+name = Infrastructure cannot import apps
+type = forbidden
+source_modules =
+    infrastructure
+forbidden_modules =
+    apps
+
+# ==============================================================================
+# Add your own contracts here
+# ==============================================================================
+# Examples:
+#
+# [importlinter:contract:ml-independence]
+# name = ML model independence
+# type = forbidden
+# source_modules =
+#     ml
+#     lantern
+# forbidden_modules =
+#     apps
+#     infrastructure

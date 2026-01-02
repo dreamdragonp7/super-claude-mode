@@ -26,6 +26,30 @@ Then proceed with the phase actions. This helps track progress through the workf
 - **Simple and safe fixes**: Prioritize fixes that are easy to understand and have minimal side effects.
 - **Leave no stone unturned**: Address ALL confirmed issues regardless of complexity. Never defer or skip issues because they seem difficult, risky, or time-consuming. Every issue gets fixed.
 - **Use TodoWrite**: Track all progress throughout.
+- **Follow patterns.yaml**: Respect project boundaries and conventions when fixing.
+
+---
+
+## Pre-Phase: patterns.yaml Check
+
+**Before Phase 1, silently check for patterns.yaml**:
+
+1. Use Glob to check if `patterns.yaml` exists in the project root.
+
+2. **If found**:
+   - Read it to understand project structure
+   - Note `boundaries` for understanding import rules
+   - Note `anti_patterns` that might be relevant to the bug
+   - Note `source_of_truth` files for key contracts
+   - Briefly mention: "Using patterns.yaml for project conventions."
+
+3. **If not found**:
+   - Continue without it
+   - Briefly mention: "No patterns.yaml found."
+
+4. Check if ARCHITECTURE.md exists - read for current reality snapshot.
+
+**Then proceed immediately to Phase 1.**
 
 ---
 

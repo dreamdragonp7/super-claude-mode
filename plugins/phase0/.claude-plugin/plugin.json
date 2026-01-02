@@ -1,21 +1,32 @@
 {
   "name": "phase0",
-  "version": "2.0.0",
-  "description": "Pre-flight exploration, pattern enforcement, and context management. Includes /audit for pattern compliance, /conform for auto-fixes, and /inventory for codebase census.",
+  "version": "3.0.0",
+  "description": "Pre-flight exploration, pattern enforcement, and context management. The brain of Super Claude Mode - uses patterns.yaml (THE IDEAL) + ARCHITECTURE.md (THE REALITY) two-file system.",
   "author": {
     "name": "acha",
     "email": "acha@super-claude-mode"
   },
-  "keywords": ["phase0", "preflight", "context", "task-capsules", "workflow", "exploration", "audit", "patterns", "conformance"],
+  "keywords": [
+    "phase0",
+    "preflight",
+    "context",
+    "task-capsules",
+    "workflow",
+    "exploration",
+    "audit",
+    "patterns",
+    "planning",
+    "architecture",
+    "hygen",
+    "boundaries"
+  ],
   "license": "MIT",
   "commands": [
     "./commands/phase0.md",
-    "./commands/focus.md",
-    "./commands/atlas.md",
-    "./commands/scaffold.md",
+    "./commands/planning.md",
     "./commands/audit.md",
-    "./commands/inventory.md",
-    "./commands/conform.md"
+    "./commands/focus.md",
+    "./commands/atlas.md"
   ],
   "agents": [
     "./agents/file-scanner.md",
@@ -23,14 +34,14 @@
     "./agents/test-finder.md",
     "./agents/context-synthesizer.md",
     "./agents/pattern-checker.md",
-    "./agents/boundary-validator.md",
-    "./agents/conformance-fixer.md"
+    "./agents/boundary-validator.md"
   ],
   "skills": [
     "./skills/phase0-guide/SKILL.md",
+    "./skills/patterns-yaml/SKILL.md",
     "./skills/ultra-scientist/SKILL.md",
     "./skills/task-capsules/SKILL.md",
-    "./skills/repo-atlas/SKILL.md",
-    "./skills/code-audit/SKILL.md"
-  ]
+    "./skills/repo-atlas/SKILL.md"
+  ],
+  "hooks": "./hooks/hooks.json"
 }
