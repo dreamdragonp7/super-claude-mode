@@ -1,0 +1,29 @@
+{
+  "name": "hygen-ripper",
+  "version": "2.0.0",
+  "description": "The Template Powerhouse. 4 commands: /hygen-rip (extract to staging), /hygen-promote (staging to _templates), /hygen-templates (manage library), /hygen-compare (code vs template review). Atomic staging, cross-plugin capsule integration.",
+  "author": {
+    "name": "acha",
+    "email": "acha@super-claude-mode"
+  },
+  "keywords": [
+    "hygen",
+    "templates",
+    "rip",
+    "extract",
+    "staging",
+    "compare",
+    "scaffolding"
+  ],
+  "license": "MIT",
+  "commands": [
+    "./commands/rip.md",
+    "./commands/promote.md",
+    "./commands/templates.md",
+    "./commands/compare.md"
+  ],
+  "skills": [
+    "./skills/hygen-mastery/SKILL.md"
+  ],
+  "hooks": "./hooks/hooks.json"
+}

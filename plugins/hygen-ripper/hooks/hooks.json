@@ -1,0 +1,16 @@
+{
+  "description": "Hygen-ripper v2.0 - Enforce staging workflow, only /hygen-promote can write to _templates",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/enforce-staging.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
