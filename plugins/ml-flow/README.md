@@ -1,8 +1,15 @@
-# ML-Flow Plugin v2.0
+# ML-Flow Plugin v2.1
 
-Comprehensive 12-phase ML development workflow with specialized agents for model architecture, training pipelines, experiment tracking, and evaluation. Now with enhanced cloud MLOps (AWS/Azure/GCP), production infrastructure, and business analytics.
+Comprehensive 12-phase ML development workflow with specialized agents for model architecture, training pipelines, experiment tracking, and evaluation. Now with **mandatory agent orchestration** - Claude acts as orchestrator, never doing phase work directly.
 
-## What's New in v2.0
+## What's New in v2.1
+
+- **⛔ MANDATORY AGENT DELEGATION**: Every phase now REQUIRES Task tool usage - Claude cannot skip agents
+- **Explicit Task tool examples**: Each phase shows exact Task tool call syntax
+- **Parallel agent patterns**: Phases 2, 3, 4, 10 launch multiple agents simultaneously
+- **Clear orchestrator role**: Claude MAY only announce, synthesize, and present - NEVER explore/design/implement
+
+## What's in v2.0
 
 - **Enhanced mlops-engineer**: Full cloud-specific sections (AWS SageMaker, Azure ML, GCP Vertex AI), Kubernetes orchestration, Infrastructure as Code, Security & Compliance
 - **Enhanced data-scientist**: Business analytics domains (Financial, Marketing, Operations), experimental design, advanced analytics
