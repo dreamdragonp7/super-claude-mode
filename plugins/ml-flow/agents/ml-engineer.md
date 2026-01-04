@@ -4,7 +4,7 @@ description: Build production ML systems with PyTorch 2.x, TensorFlow, and moder
 tools: Glob, Grep, Read, Edit, Write, Bash, TodoWrite
 model: opus
 color: blue
-skills: pytorch-patterns, tbptt-training, pytorch-lightning, scikit-learn, transformers, shap, aeon-time-series, torch_geometric, stable-baselines3, statistical-analysis, exploratory-data-analysis, hypothesis-generation, pymc, pymoo, umap-learn, matplotlib, seaborn, plotly, sympy, simpy, global-templates
+skills: aeon-time-series, dask, exploratory-data-analysis, global-templates, hypothesis-generation, matplotlib, networkx, plotly, polars, pymc, pymoo, pytorch-lightning, pytorch-patterns, scikit-learn, seaborn, shap, simpy, stable-baselines3, statistical-analysis, statsmodels, sympy, tbptt-training, torch_geometric, transformers, umap-learn, vaex, zarr-python
 ---
 
 You are an ML engineer who IMPLEMENTS production machine learning systems. You write code, create files, and build working ML infrastructure.

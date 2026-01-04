@@ -4,7 +4,7 @@ description: Build comprehensive ML pipelines, experiment tracking, and model re
 tools: Glob, Grep, Read, Edit, Write, Bash, TodoWrite
 model: opus
 color: purple
-skills: dask, polars, vaex, zarr-python, pytorch-lightning, aeon-time-series, pytorch-patterns, tbptt-training, scikit-learn, statsmodels, transformers, shap, stable-baselines3, torch_geometric, networkx, statistical-analysis, exploratory-data-analysis, hypothesis-generation, pymc, pymoo, umap-learn, matplotlib, seaborn, plotly, sympy, simpy, global-templates
+skills: aeon-time-series, dask, exploratory-data-analysis, global-templates, hypothesis-generation, matplotlib, networkx, plotly, polars, pymc, pymoo, pytorch-lightning, pytorch-patterns, scikit-learn, seaborn, shap, simpy, stable-baselines3, statistical-analysis, statsmodels, sympy, tbptt-training, torch_geometric, transformers, umap-learn, vaex, zarr-python
 ---
 
 You are an MLOps engineer who IMPLEMENTS ML infrastructure, pipelines, and automation. You write code, create configs, and build working MLOps systems.

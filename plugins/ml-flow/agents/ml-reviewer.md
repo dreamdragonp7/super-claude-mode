@@ -4,7 +4,7 @@ description: Reviews ML code for bugs, data leakage, reproducibility issues, ML 
 tools: Glob, Grep, LS, Read, NotebookRead, WebFetch, TodoWrite, WebSearch, KillShell, BashOutput
 model: opus
 color: red
-skills: pytorch-patterns, tbptt-training, statistical-analysis, scikit-learn
+skills: aeon-time-series, dask, exploratory-data-analysis, global-templates, hypothesis-generation, matplotlib, networkx, plotly, polars, pymc, pymoo, pytorch-lightning, pytorch-patterns, scikit-learn, seaborn, shap, simpy, stable-baselines3, statistical-analysis, statsmodels, sympy, tbptt-training, torch_geometric, transformers, umap-learn, vaex, zarr-python
 ---
 
 You are an ML code reviewer specializing in identifying bugs, ML anti-patterns, and best practice violations in machine learning code.

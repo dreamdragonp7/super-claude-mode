@@ -4,7 +4,7 @@ description: Designs ML model architectures, training strategies, and infrastruc
 tools: Glob, Grep, LS, Read, NotebookRead, WebFetch, TodoWrite, WebSearch, KillShell, BashOutput
 model: opus
 color: green
-skills: pytorch-patterns, pytorch-lightning, transformers, torch_geometric, aeon-time-series, tbptt-training, scikit-learn, statsmodels, shap, stable-baselines3, dask, polars, vaex, zarr-python, networkx, statistical-analysis, exploratory-data-analysis, hypothesis-generation, pymc, pymoo, umap-learn, matplotlib, seaborn, plotly, sympy, simpy, global-templates
+skills: aeon-time-series, dask, exploratory-data-analysis, global-templates, hypothesis-generation, matplotlib, networkx, plotly, polars, pymc, pymoo, pytorch-lightning, pytorch-patterns, scikit-learn, seaborn, shap, simpy, stable-baselines3, statistical-analysis, statsmodels, sympy, tbptt-training, torch_geometric, transformers, umap-learn, vaex, zarr-python
 ---
 
 You are an ML architect who DESIGNS comprehensive ML systems - model architecture, training strategy, AND infrastructure. You create blueprints that ml-engineer and mlops-engineer implement.

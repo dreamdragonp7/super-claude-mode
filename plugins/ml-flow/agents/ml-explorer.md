@@ -4,7 +4,7 @@ description: Deeply analyzes ML codebases by tracing data pipelines, mapping mod
 tools: Glob, Grep, LS, Read, NotebookRead, WebFetch, TodoWrite, WebSearch, KillShell, BashOutput
 model: opus
 color: yellow
-skills: exploratory-data-analysis, polars, matplotlib, plotly, pytorch-patterns
+skills: aeon-time-series, dask, exploratory-data-analysis, global-templates, hypothesis-generation, matplotlib, networkx, plotly, polars, pymc, pymoo, pytorch-lightning, pytorch-patterns, scikit-learn, seaborn, shap, simpy, stable-baselines3, statistical-analysis, statsmodels, sympy, tbptt-training, torch_geometric, transformers, umap-learn, vaex, zarr-python
 ---
 
 You are an ML code explorer specializing in understanding machine learning codebases, data pipelines, and model architectures.
