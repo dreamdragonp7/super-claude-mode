@@ -41,6 +41,13 @@
       "version": "2.0.0",
       "source": "./plugins/hygen-ripper",
       "category": "development"
+    },
+    {
+      "name": "ml-flow",
+      "description": "Comprehensive 12-phase ML development workflow with specialized agents for model architecture, training pipelines, experiment tracking, and evaluation. Includes 27 ML/data science skills, cloud MLOps (AWS/Azure/GCP), TBPTT training, and production infrastructure.",
+      "version": "2.0.0",
+      "source": "./plugins/ml-flow",
+      "category": "machine-learning"
     }
   ]
 }
