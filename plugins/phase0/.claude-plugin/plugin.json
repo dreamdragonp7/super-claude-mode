@@ -1,7 +1,7 @@
 {
   "name": "phase0",
-  "version": "5.0.0",
-  "description": "The Context Compiler. 3 commands: /phase0 (intake + capsule), /phase0:audit (reality check), /phase0:patterns (manage patterns.yaml). YAML capsules, machine-readable outputs, single-writer to /.phase0/",
+  "version": "6.0.0",
+  "description": "The Context Compiler. 3 commands: /phase0 (intake + capsule + optional deep research), /phase0:audit (reality check), /phase0:patterns (manage patterns.yaml). YAML capsules, machine-readable outputs, single-writer to /.phase0/",
   "author": {
     "name": "acha",
     "email": "acha@super-claude-mode"
@@ -13,13 +13,17 @@
     "audit",
     "patterns",
     "architecture",
-    "preflight"
+    "preflight",
+    "research"
   ],
   "license": "MIT",
   "commands": [
     "./commands/phase0.md",
     "./commands/audit.md",
     "./commands/patterns.md"
+  ],
+  "agents": [
+    "./agents/deep-researcher.md"
   ],
   "skills": [
     "./skills/capsule-contract/SKILL.md"

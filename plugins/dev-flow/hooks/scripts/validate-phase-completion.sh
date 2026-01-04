@@ -13,7 +13,7 @@ INPUT=$(cat)
 # Output: allow the stop
 cat << EOF
 {
-  "decision": "allow",
+  "decision": "approve",
   "reason": "Phase completion check passed"
 }
 EOF

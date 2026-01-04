@@ -48,6 +48,13 @@
       "version": "2.0.0",
       "source": "./plugins/ml-flow",
       "category": "machine-learning"
+    },
+    {
+      "name": "pr-flow",
+      "description": "4-phase PR review workflow with parallel agents and phase0 handoff",
+      "version": "2.0.0",
+      "source": "./plugins/pr-flow",
+      "category": "development"
     }
   ]
 }

@@ -28,20 +28,20 @@ Task tool → subagent_type: "ml-flow:<agent-name>"
 ```
 
 ### Rule 3: Agent Counts Per Phase
-| Phase | Agents | Agent Types |
-|-------|--------|-------------|
-| 1 | 1-2 | ml-explorer |
-| 2 | 2-3 | ml-explorer (parallel) |
-| 3 | 2 | ml-explorer + data-scientist (parallel) |
-| 4 | 3 | ml-architect (parallel) |
-| 5 | 2+2 | ml-architect ×2 → data-scientist ×2 (SEQUENTIAL) |
-| 6 | 0 | None (orchestrator presents designs) |
-| 7 | 3 | **ml-engineer** (parallel) |
-| 8 | 3 | **mlops-engineer** (parallel) |
-| 9 | 2 | ml-engineer + mlops-engineer (parallel) |
-| 10 | 3 | ml-reviewer (parallel) |
-| 11 | 2 | ml-engineer + mlops-engineer (parallel) |
-| 12 | 0 | None (orchestrator summarizes) |
+| Phase | Name | Agents | Agent Types |
+|-------|------|--------|-------------|
+| 1 | Problem Analysis | 1-2 | ml-explorer (+ DISCOVERIES) |
+| 2 | Data Architecture | 2-3 | ml-explorer (parallel, + DISCOVERIES) |
+| 3 | Risk Assessment | 2 | ml-explorer + data-scientist (parallel, + DISCOVERIES) |
+| 4 | Model Architecture | 3 | ml-architect: MINIMAL, PRAGMATIC, COMPREHENSIVE (+ EXTRAS) |
+| 5 | Possibility Aggregation | 2+2 | ml-architect ×2 → data-scientist ×2 (SEQUENTIAL) |
+| 6 | Design Approval | 0 | None (user decides everything) |
+| 7 | Model Implementation | 3 | **ml-engineer** (parallel) |
+| 8 | Training Implementation | 3 | **mlops-engineer** (parallel) |
+| 9 | Integration | 2 | ml-engineer + mlops-engineer (parallel) |
+| 10 | Quality Review | 3 | ml-reviewer (parallel) |
+| 11 | Fixes & Verification | 2 | ml-engineer + mlops-engineer (parallel) |
+| 12 | Summary | 0 | None (orchestrator summarizes) |
 
 **When in doubt, use MORE agents.** Parallel agents are cheap and provide diverse perspectives.
 
@@ -146,12 +146,20 @@ Initial request: $ARGUMENTS
    ```
    Task tool call:
      subagent_type: "ml-flow:ml-explorer"
-     prompt: "Explore existing ML code, models, and training pipelines to understand current patterns. Return key files and architectural patterns found."
+     prompt: "Explore existing ML code, models, and training pipelines to understand current patterns. Return key files and architectural patterns found.
+
+       CREATIVE EXPLORATION: Beyond the explicit task above, freely explore and report:
+       - Unexpected patterns or architectural choices worth noting
+       - Opportunities or possibilities the user might not have considered
+       - Interesting techniques or approaches discovered in the codebase
+       - Anything surprising or noteworthy you encounter
+
+       Report these in a separate '## DISCOVERIES' section at the end of your response."
    ```
 
    **DO NOT explore code yourself. WAIT for agent to return.**
 
-5. Once agent returns, synthesize findings and confirm ML requirements with user.
+5. Once agent returns, synthesize findings AND discoveries. Confirm ML requirements with user.
 
 **When complete**: Proceed to Phase 2.
 
@@ -174,15 +182,39 @@ Agents: 2-3x ml-explorer (parallel)
    ```
    Task tool call #1:
      subagent_type: "ml-flow:ml-explorer"
-     prompt: "Map the data sources and feature engineering pipeline. Return 5-10 key files with line numbers."
+     prompt: "Map the data sources and feature engineering pipeline. Return 5-10 key files with line numbers.
+
+       CREATIVE EXPLORATION: Beyond the explicit task, freely explore and report:
+       - Untapped data sources or features that could be leveraged
+       - Patterns that seem over-engineered or under-utilized
+       - Opportunities for better feature engineering
+       - Anything surprising about the data architecture
+
+       Report these in a separate '## DISCOVERIES' section."
 
    Task tool call #2:
      subagent_type: "ml-flow:ml-explorer"
-     prompt: "Find existing preprocessing patterns and data validation. Return 5-10 key files with line numbers."
+     prompt: "Find existing preprocessing patterns and data validation. Return 5-10 key files with line numbers.
+
+       CREATIVE EXPLORATION: Beyond the explicit task, freely explore and report:
+       - Missing validation that could cause issues
+       - Preprocessing steps that could be improved or simplified
+       - Edge cases not currently handled
+       - Anything surprising about the preprocessing pipeline
+
+       Report these in a separate '## DISCOVERIES' section."
 
    Task tool call #3:
      subagent_type: "ml-flow:ml-explorer"
-     prompt: "Analyze the feature schema and how features are computed. Return 5-10 key files with line numbers."
+     prompt: "Analyze the feature schema and how features are computed. Return 5-10 key files with line numbers.
+
+       CREATIVE EXPLORATION: Beyond the explicit task, freely explore and report:
+       - Features that seem redundant or highly correlated
+       - Missing features that could be valuable
+       - Temporal dependencies or ordering issues
+       - Anything surprising about the feature computation
+
+       Report these in a separate '## DISCOVERIES' section."
    ```
 
    **DO NOT use Glob/Grep/Read yourself. WAIT for ALL agents to return.**
@@ -194,6 +226,7 @@ Agents: 2-3x ml-explorer (parallel)
    - Feature engineering patterns
    - Preprocessing pipelines
    - Data validation approaches
+   - **ALL discoveries from ALL agents** (don't lose these!)
 
 **When complete**: Proceed to Phase 3.
 
@@ -214,11 +247,27 @@ Agents: 1x ml-explorer + 1x data-scientist (parallel)
    ```
    Task tool call #1:
      subagent_type: "ml-flow:ml-explorer"
-     prompt: "Identify ML risks: data leakage, distribution shift, bias, temporal dependencies, lookahead bias, train/test contamination. Return specific file:line references for each risk."
+     prompt: "Identify ML risks: data leakage, distribution shift, bias, temporal dependencies, lookahead bias, train/test contamination. Return specific file:line references for each risk.
+
+       CREATIVE EXPLORATION: Beyond known risk categories, freely explore and report:
+       - Novel or unusual risks specific to this codebase
+       - Architectural decisions that could become problematic at scale
+       - Hidden assumptions in the code that could break
+       - Risks the user probably hasn't thought about
+
+       Report these in a separate '## DISCOVERIES' section."
 
    Task tool call #2:
      subagent_type: "ml-flow:data-scientist"
-     prompt: "Analyze data quality: missing values, outliers, class imbalance, feature correlations, statistical anomalies. Return quantified findings."
+     prompt: "Analyze data quality: missing values, outliers, class imbalance, feature correlations, statistical anomalies. Return quantified findings.
+
+       CREATIVE EXPLORATION: Beyond standard data quality checks, freely explore and report:
+       - Unusual statistical properties worth investigating
+       - Potential data generation issues or labeling problems
+       - Temporal patterns or seasonality that could affect the model
+       - Statistical insights the user might not have considered
+
+       Report these in a separate '## DISCOVERIES' section."
    ```
 
    **DO NOT analyze risks yourself. WAIT for BOTH agents to return.**
@@ -229,8 +278,9 @@ Agents: 1x ml-explorer + 1x data-scientist (parallel)
    - Bias and fairness issues
    - Reproducibility challenges
    - Scalability concerns
+   - **ALL discoveries from BOTH agents** (novel risks, statistical insights)
 
-3. Present risks to user. Ask if any should block or modify the design.
+3. Present risks AND discoveries to user. Ask if any should block or modify the design.
 
 **When complete**: Proceed to Phase 4.
 
@@ -243,10 +293,10 @@ Agents: 1x ml-explorer + 1x data-scientist (parallel)
 ## Phase 4 of 12: Model Architecture
 
 **Phase 4 of 12: Model Architecture**
-Next: Phase 5 - Infrastructure Design
+Next: Phase 5 - Possibility Aggregation
 Agents: 3x ml-architect (parallel)
 
-**Goal**: Design multiple model approaches with trade-offs, INCLUDING training strategy
+**Goal**: Design multiple model approaches with trade-offs, AND discover extras
 
 **Actions**:
 
@@ -255,129 +305,170 @@ Agents: 3x ml-architect (parallel)
    ```
    Task tool call #1:
      subagent_type: "ml-flow:ml-architect"
-     prompt: "Design BASELINE approach: Simple model, fast iteration, interpretable.
+     prompt: "Design MINIMAL approach: Simplest viable model, fast iteration, highly interpretable.
        Return complete design including:
        - Model architecture with dimensions
        - Training strategy (loss, optimizer, schedule, TBPTT if needed)
        - Input/output specifications
        - Resource requirements
-       - Files to create/modify (assigned to ml-engineer)"
+       - Files to create/modify (assigned to ml-engineer)
+
+       EXTRAS DISCOVERED: Beyond your assigned approach, also report:
+       - Alternative design choices you considered but didn't include
+       - Interesting patterns from the codebase that could be leveraged
+       - Trade-offs or considerations the user might not have thought of
+       - Techniques or approaches worth mentioning even if not used here
+       - Anything surprising you discovered during your exploration
+
+       Report these in a separate '## EXTRAS DISCOVERED' section. Be thorough - these insights carry forward to Phase 5."
 
    Task tool call #2:
      subagent_type: "ml-flow:ml-architect"
-     prompt: "Design STATE-OF-THE-ART approach: Best performance, more complexity.
+     prompt: "Design PRAGMATIC approach: Balance of performance + maintainability + reasonable complexity.
        Return complete design including:
        - Model architecture with dimensions
        - Training strategy (loss, optimizer, schedule, TBPTT if needed)
        - Input/output specifications
        - Resource requirements
-       - Files to create/modify (assigned to ml-engineer)"
+       - Files to create/modify (assigned to ml-engineer)
+
+       EXTRAS DISCOVERED: Beyond your assigned approach, also report:
+       - Alternative design choices you considered but didn't include
+       - Interesting patterns from the codebase that could be leveraged
+       - Trade-offs or considerations the user might not have thought of
+       - Techniques or approaches worth mentioning even if not used here
+       - Anything surprising you discovered during your exploration
+
+       Report these in a separate '## EXTRAS DISCOVERED' section. Be thorough - these insights carry forward to Phase 5."
 
    Task tool call #3:
      subagent_type: "ml-flow:ml-architect"
-     prompt: "Design PRAGMATIC approach: Balance of performance + maintainability.
+     prompt: "Design COMPREHENSIVE approach: Full-featured, best performance, more complexity is acceptable.
        Return complete design including:
        - Model architecture with dimensions
        - Training strategy (loss, optimizer, schedule, TBPTT if needed)
        - Input/output specifications
        - Resource requirements
-       - Files to create/modify (assigned to ml-engineer)"
+       - Files to create/modify (assigned to ml-engineer)
+
+       EXTRAS DISCOVERED: Beyond your assigned approach, also report:
+       - Alternative design choices you considered but didn't include
+       - Interesting patterns from the codebase that could be leveraged
+       - Trade-offs or considerations the user might not have thought of
+       - Techniques or approaches worth mentioning even if not used here
+       - Anything surprising you discovered during your exploration
+
+       Report these in a separate '## EXTRAS DISCOVERED' section. Be thorough - these insights carry forward to Phase 5."
    ```
 
    **DO NOT design architectures yourself. WAIT for ALL agents to return.**
 
 2. Once agents return, synthesize their proposals into a comparison table.
 
-3. Present to user:
-   - Brief summary of each approach (from agents)
-   - Trade-offs comparison (performance vs. complexity vs. resources)
-   - Your recommendation based on agent outputs
-   - Ask user which approach they prefer
+3. **DO NOT ask user to choose yet.** Present a brief summary of the 3 approaches, noting that ALL extras will be aggregated in Phase 5 before user decides in Phase 6.
 
-**When complete**: Proceed to Phase 5 (after user selects approach).
+**When complete**: Proceed to Phase 5 (NO user selection yet - that happens in Phase 6).
 
 ---
 
-## Phase 5 of 12: Infrastructure Design
+## Phase 5 of 12: Possibility Aggregation
 
-**Phase 5 of 12: Infrastructure Design**
+**Phase 5 of 12: Possibility Aggregation**
 Next: Phase 6 - Design Approval
 Agents: ml-architect ×2 → data-scientist ×2 (SEQUENTIAL)
 
-**Goal**: Design training infrastructure, THEN have data-scientist fact-check
+**Goal**: Aggregate ALL extras from ALL Phase 4 agents into a comprehensive possibility landscape
 
-**IMPORTANT: This phase is SEQUENTIAL, not parallel.**
+**IMPORTANT: This phase is SEQUENTIAL, not parallel. Nothing is discarded - all insights preserved.**
 
 **Actions**:
 
-### STEP 1: Infrastructure Design (ml-architect)
+### STEP 1: Synthesize All Extras (ml-architect)
 
 1. **MANDATORY: Use Task tool to launch 2 ml-architect agents IN PARALLEL**:
+
+   Pass ALL the extras from ALL 3 Phase 4 agents:
 
    ```
    Task tool call #1:
      subagent_type: "ml-flow:ml-architect"
-     prompt: "Design EXPERIMENT TRACKING strategy for [CHOSEN ARCHITECTURE].
-       Include:
-       - Tool selection (MLflow vs W&B vs Neptune) with rationale
-       - Metric logging architecture
-       - Artifact storage strategy
-       - Hyperparameter tracking
-       - Reproducibility setup
-       Return complete specification for mlops-engineer to implement."
+     prompt: "SYNTHESIZE DESIGN EXTRAS from Phase 4 into organized categories.
+
+       INPUT - Extras from all 3 Phase 4 agents:
+       [PASTE ALL '## EXTRAS DISCOVERED' SECTIONS FROM PHASE 4]
+
+       Your task:
+       1. Aggregate all extras into thematic categories (e.g., 'Architecture Options', 'Training Techniques', 'Risk Mitigations', 'Optimizations')
+       2. Identify which extras complement which approach (MINIMAL/PRAGMATIC/COMPREHENSIVE)
+       3. Flag any contradictions or trade-offs between extras
+       4. Note which extras could be combined regardless of chosen approach
+
+       Return a structured 'POSSIBILITY MAP' organized by category."
 
    Task tool call #2:
      subagent_type: "ml-flow:ml-architect"
-     prompt: "Design PIPELINE INFRASTRUCTURE for [CHOSEN ARCHITECTURE].
-       Include:
-       - Training pipeline structure
-       - Data loading and batching strategy
-       - Checkpointing frequency and storage
-       - Distributed training plan (if needed)
-       - Resource allocation (GPU, memory)
-       Return complete specification for mlops-engineer to implement."
+     prompt: "DESIGN INFRASTRUCTURE OPTIONS that support ALL 3 approaches from Phase 4.
+
+       INPUT - The 3 approaches from Phase 4:
+       [PASTE BRIEF SUMMARY OF MINIMAL, PRAGMATIC, COMPREHENSIVE]
+
+       Design flexible infrastructure that can support any choice:
+       - Experiment tracking strategy (tool selection with rationale)
+       - Pipeline structure that works for all 3 complexity levels
+       - Checkpointing and artifact storage
+       - Resource allocation tiers (min/recommended/max)
+
+       Return infrastructure design as OPTIONS, not a single choice - user decides in Phase 6."
    ```
 
    **WAIT for BOTH ml-architect agents to return before proceeding to Step 2.**
 
-### STEP 2: Fact-Check (data-scientist)
+### STEP 2: Validate & Enhance (data-scientist)
 
 2. **MANDATORY: Use Task tool to launch 2 data-scientist agents IN PARALLEL**:
-
-   Pass the ml-architect designs to data-scientist for validation:
 
    ```
    Task tool call #1:
      subagent_type: "ml-flow:data-scientist"
-     prompt: "FACT-CHECK the experiment tracking design:
-       [PASTE EXPERIMENT TRACKING DESIGN FROM STEP 1]
+     prompt: "VALIDATE the aggregated possibility map from Step 1:
+       [PASTE POSSIBILITY MAP FROM STEP 1]
 
-       Validate:
-       - Does the metric logging capture statistically meaningful signals?
-       - Are the hyperparameter tracking choices appropriate?
-       - Any statistical concerns with the approach?
-       Return specific issues or 'APPROVED' if design is sound."
+       For each category of extras:
+       - Are the statistical claims valid?
+       - Any extras that are mutually exclusive?
+       - Which extras have the highest expected value?
+       - Any missing considerations from a statistical perspective?
+
+       Return validated map with your annotations + any NEW discoveries."
 
    Task tool call #2:
      subagent_type: "ml-flow:data-scientist"
-     prompt: "FACT-CHECK the evaluation strategy alignment:
-       [PASTE PIPELINE DESIGN FROM STEP 1]
+     prompt: "DESIGN EVALUATION STRATEGY that works for all 3 approaches:
+       [PASTE INFRASTRUCTURE OPTIONS FROM STEP 1]
 
-       Design evaluation strategy AND validate:
+       Design flexible evaluation:
        - Primary and secondary metrics with thresholds
-       - Validation strategy (holdout, cross-validation, walk-forward)
-       - Does the pipeline support proper temporal validation?
-       - Any statistical concerns with the batching/checkpointing?
-       Return evaluation specification AND any design issues."
+       - Validation strategy options (holdout vs cross-val vs walk-forward)
+       - How evaluation differs across MINIMAL/PRAGMATIC/COMPREHENSIVE
+       - Statistical requirements for each approach
+
+       Return evaluation specification as OPTIONS - user decides in Phase 6.
+
+       Also report any DISCOVERIES - things worth considering that weren't in Phase 4."
    ```
 
    **WAIT for BOTH data-scientist agents to return.**
 
-3. Compile infrastructure design + evaluation strategy + any issues.
+3. Compile the COMPLETE POSSIBILITY LANDSCAPE:
+   - All 3 approaches (MINIMAL, PRAGMATIC, COMPREHENSIVE)
+   - All extras from Phase 4 organized by category
+   - Infrastructure options
+   - Evaluation options
+   - Data-scientist validations and new discoveries
 
-4. If data-scientist found issues, note them for user review in Phase 6.
+4. **DO NOT filter or recommend.** Present everything to user in Phase 6.
 
-**When complete**: Proceed to Phase 6.
+**When complete**: Proceed to Phase 6 with the full possibility landscape.
 
 ---
 
@@ -387,45 +478,69 @@ Agents: ml-architect ×2 → data-scientist ×2 (SEQUENTIAL)
 Next: Phase 7 - Model Implementation
 Agents: None (Orchestrator presents designs)
 
-**Goal**: Get explicit user approval before ANY code is written
+**Goal**: Present FULL possibility landscape, user makes ALL decisions
 
-**CHECKPOINT: This phase requires user approval before proceeding.**
+**CHECKPOINT: This is the decision gate. User sees everything, chooses everything.**
 
 **Actions**:
 
-1. Present the COMPLETE design to user:
+1. Present the COMPLETE POSSIBILITY LANDSCAPE to user:
 
-   **Model Architecture** (from Phase 4 - ml-architect):
-   - Selected approach and rationale
-   - Architecture details
-   - Training strategy (loss, optimizer, TBPTT)
-   - Files to create/modify (for ml-engineer)
+   **The 3 Approaches** (from Phase 4):
+   | Approach | Summary | Complexity | Resources |
+   |----------|---------|------------|-----------|
+   | MINIMAL | [brief] | Low | [estimate] |
+   | PRAGMATIC | [brief] | Medium | [estimate] |
+   | COMPREHENSIVE | [brief] | High | [estimate] |
 
-   **Infrastructure Design** (from Phase 5 - ml-architect):
-   - Experiment tracking approach
-   - Pipeline structure
-   - Checkpointing plan
-   - Files to create/modify (for mlops-engineer)
+   **Possibility Map** (extras from ALL Phase 4 agents, organized in Phase 5):
+   - Category 1: [list of extras with which approaches they complement]
+   - Category 2: [list of extras]
+   - Category 3: [list of extras]
+   - ...
 
-   **Evaluation Strategy** (from Phase 5 - data-scientist):
-   - Metrics and thresholds
-   - Validation approach
-   - Baseline comparisons
+   **Infrastructure Options** (from Phase 5):
+   - Experiment tracking options
+   - Pipeline structure options
+   - Resource allocation tiers
 
-   **Fact-Check Results** (from Phase 5 - data-scientist):
-   - Any issues found
+   **Evaluation Options** (from Phase 5 - data-scientist):
+   - Metric options
+   - Validation strategy options
+
+   **Data-Scientist Validations** (from Phase 5):
+   - Statistical validations
+   - New discoveries
    - Recommendations
 
-2. Ask user: "Do you approve this design? Any changes needed before implementation?"
+   **All Discoveries from Phases 1-5** (cumulative):
+   - Phase 1 discoveries
+   - Phase 2 discoveries
+   - Phase 3 discoveries (risks + novel findings)
+   - Phase 4 extras
+   - Phase 5 new discoveries
 
-3. **DO NOT PROCEED until user explicitly approves.**
+2. Ask user to make decisions:
+   - "Which approach: MINIMAL, PRAGMATIC, or COMPREHENSIVE?"
+   - "Which extras do you want to include?" (can mix and match)
+   - "Which infrastructure options?"
+   - "Which evaluation strategy?"
+   - "Any discoveries you want to address?"
 
-   If user requests changes:
-   - Go back to relevant phase (4 or 5)
-   - Re-run the appropriate agents with updated requirements
-   - Return to Phase 6 for approval
+3. **DO NOT PROCEED until user explicitly chooses.**
 
-**When complete**: After explicit approval, proceed to Phase 7.
+   If user requests changes or wants to explore more:
+   - Go back to relevant phase
+   - Re-run appropriate agents with updated requirements
+   - Return to Phase 6 for final decision
+
+4. Once user decides, compile the FINAL DESIGN for implementation:
+   - Chosen approach + selected extras
+   - Selected infrastructure options
+   - Selected evaluation strategy
+   - Files to create/modify for ml-engineer and mlops-engineer
+
+**When complete**: After explicit decisions, proceed to Phase 7 with the final design.
 
 ---
 

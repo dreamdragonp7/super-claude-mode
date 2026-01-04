@@ -1,0 +1,20 @@
+{
+  "name": "pr-flow",
+  "version": "2.0.0",
+  "description": "4-phase PR review workflow with parallel agents and phase0 handoff",
+  "author": {
+    "name": "acha"
+  },
+  "commands": ["./commands/pr-flow.md"],
+  "agents": [
+    "./agents/code-reviewer.md",
+    "./agents/comment-analyzer.md",
+    "./agents/silent-failure-hunter.md",
+    "./agents/type-design-analyzer.md",
+    "./agents/pr-test-analyzer.md",
+    "./agents/bug-explorer.md",
+    "./agents/root-cause-analyzer.md",
+    "./agents/bug-fixer.md",
+    "./agents/fix-validator.md"
+  ]
+}
