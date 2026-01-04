@@ -1,0 +1,31 @@
+{
+  "name": "hygen-ripper",
+  "version": "1.0.0",
+  "description": "Rip UI patterns from websites into Hygen templates. Repair code by comparing ideal (patterns.yaml) vs reality (ARCHITECTURE.md). The template extraction and code repair powerhouse.",
+  "author": {
+    "name": "acha",
+    "email": "acha@super-claude-mode"
+  },
+  "keywords": [
+    "hygen", "templates", "ripper", "extraction", "repair",
+    "patterns", "ui", "components", "scaffolding", "code-generation"
+  ],
+  "license": "MIT",
+  "commands": [
+    "./commands/rip.md",
+    "./commands/repair.md",
+    "./commands/templates.md"
+  ],
+  "agents": [
+    "./agents/extractor.md",
+    "./agents/templater.md",
+    "./agents/scanner.md",
+    "./agents/architect.md",
+    "./agents/indexer.md"
+  ],
+  "skills": [
+    "./skills/hygen-mastery/SKILL.md",
+    "./skills/repair-patterns/SKILL.md"
+  ],
+  "hooks": "./hooks/hooks.json"
+}

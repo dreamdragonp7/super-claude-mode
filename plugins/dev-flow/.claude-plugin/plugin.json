@@ -1,12 +1,12 @@
 {
   "name": "dev-flow",
-  "version": "1.0.0",
-  "description": "Comprehensive 12-phase feature development workflow with specialized agents for discovery, design, implementation, and quality assurance",
+  "version": "2.0.0",
+  "description": "Comprehensive 12-phase feature development workflow with specialized agents for discovery, design, implementation, and quality assurance. All agents use Opus. Supports phase0 capsules.",
   "author": {
     "name": "acha",
     "email": "acha@super-claude-mode"
   },
-  "keywords": ["feature-development", "architecture", "implementation", "quality", "workflow"],
+  "keywords": ["feature-development", "architecture", "implementation", "quality", "workflow", "phase0"],
   "license": "MIT",
   "commands": ["./commands/dev-flow.md"],
   "agents": [
@@ -17,5 +17,6 @@
     "./agents/graphql-architect.md",
     "./agents/tdd-orchestrator.md",
     "./agents/feature-writer.md"
-  ]
+  ],
+  "hooks": "./hooks/hooks.json"
 }

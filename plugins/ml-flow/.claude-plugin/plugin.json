@@ -1,0 +1,51 @@
+{
+  "name": "ml-flow",
+  "version": "2.0.0",
+  "description": "Comprehensive 12-phase ML development workflow with specialized agents for model architecture, training pipelines, experiment tracking, and evaluation. Includes 27 ML/data science skills, cloud MLOps (AWS/Azure/GCP), TBPTT training, and production infrastructure.",
+  "author": {
+    "name": "acha",
+    "email": "acha@super-claude-mode"
+  },
+  "keywords": ["machine-learning", "ml-ops", "pytorch", "training", "experiments", "workflow", "data-science"],
+  "license": "MIT",
+  "commands": ["./commands/ml-flow.md"],
+  "agents": [
+    "./agents/ml-explorer.md",
+    "./agents/ml-architect.md",
+    "./agents/ml-engineer.md",
+    "./agents/mlops-engineer.md",
+    "./agents/data-scientist.md",
+    "./agents/ml-reviewer.md",
+    "./agents/ml-writer.md"
+  ],
+  "skills": [
+    "./skills/aeon-time-series.md",
+    "./skills/pytorch-patterns.md",
+    "./skills/tbptt-training.md",
+    "./skills/global-templates.md",
+    "./skills/scikit-learn.md",
+    "./skills/statsmodels.md",
+    "./skills/pytorch-lightning.md",
+    "./skills/transformers.md",
+    "./skills/shap.md",
+    "./skills/stable-baselines3.md",
+    "./skills/dask.md",
+    "./skills/polars.md",
+    "./skills/matplotlib.md",
+    "./skills/seaborn.md",
+    "./skills/plotly.md",
+    "./skills/pymc.md",
+    "./skills/pymoo.md",
+    "./skills/umap-learn.md",
+    "./skills/networkx.md",
+    "./skills/statistical-analysis.md",
+    "./skills/exploratory-data-analysis.md",
+    "./skills/hypothesis-generation.md",
+    "./skills/vaex.md",
+    "./skills/zarr-python.md",
+    "./skills/sympy.md",
+    "./skills/simpy.md",
+    "./skills/torch_geometric.md"
+  ],
+  "hooks": "./hooks/hooks.json"
+}

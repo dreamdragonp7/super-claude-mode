@@ -1,0 +1,25 @@
+{
+  "description": "ML-Flow v1.0 - Phase enforcement and context injection for ML development workflow",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/phase-reminder.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/validate-phase-completion.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

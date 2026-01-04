@@ -1,61 +1,28 @@
 {
   "name": "phase0",
-  "version": "4.2.1",
-  "description": "Pre-flight exploration, pattern enforcement, and context management. The brain of Super Claude Mode - uses patterns.yaml (THE IDEAL) + ARCHITECTURE.md (THE REALITY) two-file system. v4.2.1 fixes Hygen template extensions (.t → .ejs.t).",
+  "version": "5.0.0",
+  "description": "The Context Compiler. 3 commands: /phase0 (intake + capsule), /phase0:audit (reality check), /phase0:patterns (manage patterns.yaml). YAML capsules, machine-readable outputs, single-writer to /.phase0/",
   "author": {
     "name": "acha",
     "email": "acha@super-claude-mode"
   },
   "keywords": [
     "phase0",
-    "preflight",
+    "capsule",
     "context",
-    "task-capsules",
-    "workflow",
-    "exploration",
     "audit",
     "patterns",
-    "planning",
     "architecture",
-    "hygen",
-    "boundaries"
+    "preflight"
   ],
   "license": "MIT",
   "commands": [
     "./commands/phase0.md",
-    "./commands/planning-view.md",
-    "./commands/planning-add.md",
-    "./commands/planning-sync.md",
-    "./commands/planning-validate.md",
-    "./commands/audit-run.md",
-    "./commands/audit-repair.md",
-    "./commands/audit-inventory.md",
-    "./commands/audit-templates.md",
-    "./commands/focus.md",
-    "./commands/atlas.md"
-  ],
-  "agents": [
-    "./agents/file-scanner.md",
-    "./agents/import-tracer.md",
-    "./agents/test-finder.md",
-    "./agents/context-synthesizer.md",
-    "./agents/pattern-checker.md",
-    "./agents/boundary-validator.md",
-    "./agents/template-scanner.md",
-    "./agents/template-matcher.md",
-    "./agents/repair-analyzer.md",
-    "./agents/repair-planner.md",
-    "./agents/repair-executor.md",
-    "./agents/repair-verifier.md"
+    "./commands/audit.md",
+    "./commands/patterns.md"
   ],
   "skills": [
-    "./skills/phase0-guide/SKILL.md",
-    "./skills/patterns-yaml/SKILL.md",
-    "./skills/ultra-scientist/SKILL.md",
-    "./skills/task-capsules/SKILL.md",
-    "./skills/repo-atlas/SKILL.md",
-    "./skills/global-templates/SKILL.md",
-    "./skills/template-patterns/SKILL.md"
+    "./skills/capsule-contract/SKILL.md"
   ],
   "hooks": "./hooks/hooks.json"
 }

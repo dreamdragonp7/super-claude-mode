@@ -1,0 +1,53 @@
+{
+  "name": "phase0",
+  "version": "4.2.2",
+  "description": "Pre-flight exploration, pattern enforcement, and context management. The brain of Super Claude Mode - uses patterns.yaml (THE IDEAL) + ARCHITECTURE.md (THE REALITY) two-file system. v4.2.2 removes audit-repair (moved to hygen-ripper plugin).",
+  "author": {
+    "name": "acha",
+    "email": "acha@super-claude-mode"
+  },
+  "keywords": [
+    "phase0",
+    "preflight",
+    "context",
+    "task-capsules",
+    "workflow",
+    "exploration",
+    "audit",
+    "patterns",
+    "planning",
+    "architecture",
+    "hygen",
+    "boundaries"
+  ],
+  "license": "MIT",
+  "commands": [
+    "./commands/phase0.md",
+    "./commands/planning-view.md",
+    "./commands/planning-add.md",
+    "./commands/planning-sync.md",
+    "./commands/planning-validate.md",
+    "./commands/audit-run.md",
+    "./commands/audit-inventory.md",
+    "./commands/audit-templates.md",
+    "./commands/focus.md",
+    "./commands/atlas.md"
+  ],
+  "agents": [
+    "./agents/file-scanner.md",
+    "./agents/import-tracer.md",
+    "./agents/test-finder.md",
+    "./agents/context-synthesizer.md",
+    "./agents/pattern-checker.md",
+    "./agents/boundary-validator.md"
+  ],
+  "skills": [
+    "./skills/phase0-guide/SKILL.md",
+    "./skills/patterns-yaml/SKILL.md",
+    "./skills/ultra-scientist/SKILL.md",
+    "./skills/task-capsules/SKILL.md",
+    "./skills/repo-atlas/SKILL.md",
+    "./skills/global-templates/SKILL.md"
+  ],
+  "hooks": "./hooks/hooks.json"
+}

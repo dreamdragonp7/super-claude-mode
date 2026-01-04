@@ -1,44 +1,13 @@
 {
-  "description": "Phase 0 v3.0 - patterns.yaml as the brain, active warnings",
+  "description": "Phase0 v5.0 - Enforce single-writer boundaries, fast quality gates",
   "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/session-context.sh"
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "matcher": ".*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/check-patterns.sh"
-          }
-        ]
-      }
-    ],
     "PostToolUse": [
       {
         "matcher": "Write|Edit",
         "hooks": [
           {
             "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/verify-file-patterns.sh"
-          }
-        ]
-      }
-    ],
-    "PreCompact": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/pre-compact-journal.sh"
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/enforce-boundaries.sh"
           }
         ]
       }
@@ -48,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/verify-completion.sh"
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/validate-outputs.sh"
           }
         ]
       }

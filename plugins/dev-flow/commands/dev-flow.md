@@ -1,6 +1,6 @@
 ---
 description: Guided 12-phase feature development with codebase exploration, architecture design, and quality review
-argument-hint: Optional feature description
+argument-hint: Optional feature description or --capsule <slug>
 ---
 
 # Feature Development
@@ -15,6 +15,25 @@ At the START of each phase, ALWAYS announce:
 Next: Phase Y - [Next Phase Name]
 
 Then proceed with the phase actions. This helps track progress through the workflow.
+
+---
+
+## Capsule Support (Optional)
+
+Check if `$ARGUMENTS` contains `--capsule`:
+
+```
+If --capsule <slug> provided:
+  1. Read /.phase0/capsules/<slug>/capsule.yaml
+  2. Extract: goal, constraints, key_files, risks, decisions_made
+  3. Pre-fill Phase 1 context with capsule data
+  4. Announce: "Loaded capsule: <slug>"
+  5. Skip user questions in Phase 1 - use capsule answers
+
+If no --capsule:
+  1. Proceed normally with Phase 1 questions
+  2. This is fine - capsules are optional
+```
 
 ---
 
