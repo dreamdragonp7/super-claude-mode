@@ -27,19 +27,19 @@ Task tool → subagent_type: "dev-flow:<agent-name>"
 ```
 
 ### Rule 3: Agent Counts Per Phase
-| Phase | Name | Agents | Agent Type |
-|-------|------|--------|------------|
-| 1 | Business Analysis | 1 | code-explorer |
-| 2 | Technical Architecture | 2-3 | code-explorer (parallel) |
-| 3 | Risk Assessment | 1 | code-explorer |
-| 4 | Architecture Design | 2-3 | code-architect (parallel) |
-| 5 | API Design | 1 | code-architect (API Mode) |
-| 6 | Test Strategy | 1 | code-architect (Test Mode) |
-| 7 | Backend Implementation | 1+ | **feature-writer** |
-| 8 | Frontend Implementation | 1+ | **feature-writer** |
-| 9 | Integration | 1 | **feature-writer** |
+| Phase | Name | Agents | Agent Types |
+|-------|------|--------|-------------|
+| 1 | Business Analysis | 1-2 | code-explorer (+ DISCOVERIES) |
+| 2 | Technical Architecture | 3 | code-explorer (parallel, + DISCOVERIES) |
+| 3 | Risk Assessment | 2 | code-explorer × 2 (parallel, + DISCOVERIES) |
+| 4 | Architecture Design | 3 | code-architect: MINIMAL, PRAGMATIC, COMPREHENSIVE (+ EXTRAS) |
+| 5 | Possibility Synthesis | 1 | code-architect (synthesizes Phase 4 → Comprehensive Plus) |
+| 6 | Design Approval | 0 | None (user decides everything) |
+| 7 | Backend Implementation | 3 | **feature-writer** (parallel) |
+| 8 | Frontend Implementation | 3 | **feature-writer** (parallel) |
+| 9 | Integration | 2 | **feature-writer** (parallel, different focuses) |
 | 10 | Quality Review | 3 | code-reviewer (parallel) |
-| 11 | Test Execution | 1 | **feature-writer** |
+| 11 | Test Execution & Fixes | 2 | **feature-writer** (parallel, different focuses) |
 | 12 | Summary | 0 | None (orchestrator summarizes) |
 
 **When in doubt, use MORE agents.** Parallel agents are cheap and provide diverse perspectives.
@@ -66,14 +66,15 @@ You MUST NOT:
 
 ---
 
-## Execution Rule
+## Phase Announcement Format
 
 At the START of each phase, ALWAYS announce:
 
 **Phase X of 12: [Phase Name]**
 Next: Phase Y - [Next Phase Name]
+Agents: [List of agents to launch]
 
-Then proceed with the phase actions. This helps track progress through the workflow.
+Then IMMEDIATELY use Task tool to launch the required agents.
 
 ---
 
@@ -131,10 +132,15 @@ If no --capsule:
 
 ---
 
+## META-PHASE 1: DISCOVERY (Phases 1-3)
+
+---
+
 ## Phase 1 of 12: Business Analysis
 
-> **Current**: Phase 1 - Business Analysis
-> **Next**: Phase 2 - Technical Architecture
+**Phase 1 of 12: Business Analysis**
+Next: Phase 2 - Technical Architecture
+Agents: 1-2x code-explorer
 
 **Goal**: Understand WHAT needs to be built and WHY
 
@@ -144,7 +150,11 @@ Initial request: $ARGUMENTS
 
 1. Create todo list with all 12 phases.
 
-2. **Get the feature description** (check in this order):
+2. **Check for capsule** (if --capsule provided):
+   - Read capsule.yaml and extract pre-filled context
+   - Skip to step 4 with capsule data
+
+3. **Get the feature description** (if no capsule):
 
    **A) Arguments provided?** → Use `$ARGUMENTS` as the feature request.
 
@@ -154,10 +164,24 @@ Initial request: $ARGUMENTS
    - Who are the users?
    - Any constraints or requirements?
 
-3. Launch `code-explorer` agent to understand business context:
-   - "Explore existing features similar to [feature] to understand business patterns and user flows."
+4. **MANDATORY: Use Task tool to launch code-explorer agent**:
+   ```
+   Task tool call:
+     subagent_type: "dev-flow:code-explorer"
+     prompt: "Explore existing features similar to [feature] to understand business patterns and user flows. Return key files and architectural patterns found.
 
-4. Summarize the feature requirements and confirm with user.
+       CREATIVE EXPLORATION: Beyond the explicit task above, freely explore and report:
+       - Unexpected patterns or architectural choices worth noting
+       - Opportunities or possibilities the user might not have considered
+       - Interesting techniques or approaches discovered in the codebase
+       - Anything surprising or noteworthy you encounter
+
+       Report these in a separate '## DISCOVERIES' section at the end of your response."
+   ```
+
+   **DO NOT explore code yourself. WAIT for agent to return.**
+
+5. Once agent returns, synthesize findings AND discoveries. Confirm feature requirements with user.
 
 **When complete**: Proceed to Phase 2.
 
@@ -165,25 +189,65 @@ Initial request: $ARGUMENTS
 
 ## Phase 2 of 12: Technical Architecture
 
-> **Current**: Phase 2 - Technical Architecture
-> **Next**: Phase 3 - Risk Assessment
+**Phase 2 of 12: Technical Architecture**
+Next: Phase 3 - Risk Assessment
+Agents: 3x code-explorer (parallel)
 
 **Goal**: Understand the existing codebase and technical landscape
 
 **Actions**:
 
-1. Launch 2-3 `code-explorer` agents in parallel. Each agent should:
-   - Trace through related code comprehensively
-   - Target different aspects (architecture, similar features, tech stack)
-   - Return 5-10 key files to read
+1. **MANDATORY: Use Task tool to launch 3 code-explorer agents IN PARALLEL**:
 
-   **Example agent prompts**:
-   - "Map the high-level architecture and module boundaries for [feature area]"
-   - "Find existing patterns for [data flow/API/components] that this feature should follow"
-   - "Analyze the integration points where this feature will connect"
+   Launch ALL agents in a SINGLE message with multiple Task tool calls:
 
-2. Once agents return, read all identified files to build deep understanding.
-3. Present a summary of the technical landscape.
+   ```
+   Task tool call #1:
+     subagent_type: "dev-flow:code-explorer"
+     prompt: "Map the high-level architecture and module boundaries for [feature area]. Return 5-10 key files with line numbers.
+
+       CREATIVE EXPLORATION: Beyond the explicit task, freely explore and report:
+       - Architectural decisions that seem unusual or noteworthy
+       - Patterns that could be leveraged for this feature
+       - Potential architectural improvements
+       - Anything surprising about the architecture
+
+       Report these in a separate '## DISCOVERIES' section."
+
+   Task tool call #2:
+     subagent_type: "dev-flow:code-explorer"
+     prompt: "Find existing patterns for [data flow/API/components] that this feature should follow. Return 5-10 key files with line numbers.
+
+       CREATIVE EXPLORATION: Beyond the explicit task, freely explore and report:
+       - Patterns that seem over-engineered or under-utilized
+       - Opportunities for better abstractions
+       - Inconsistencies in existing patterns
+       - Anything surprising about the patterns
+
+       Report these in a separate '## DISCOVERIES' section."
+
+   Task tool call #3:
+     subagent_type: "dev-flow:code-explorer"
+     prompt: "Analyze the integration points where this feature will connect. Return 5-10 key files with line numbers.
+
+       CREATIVE EXPLORATION: Beyond the explicit task, freely explore and report:
+       - Integration challenges not immediately obvious
+       - Opportunities for cleaner integration
+       - Dependencies that could cause issues
+       - Anything surprising about the integration points
+
+       Report these in a separate '## DISCOVERIES' section."
+   ```
+
+   **DO NOT use Glob/Grep/Read yourself. WAIT for ALL agents to return.**
+
+2. Once ALL agents return, you MAY read the specific files they identified.
+
+3. Synthesize agent findings into a summary:
+   - Architecture and module boundaries
+   - Existing patterns to follow
+   - Integration points
+   - **ALL discoveries from ALL agents** (don't lose these!)
 
 **When complete**: Proceed to Phase 3.
 
@@ -191,134 +255,303 @@ Initial request: $ARGUMENTS
 
 ## Phase 3 of 12: Risk Assessment
 
-> **Current**: Phase 3 - Risk Assessment
-> **Next**: Phase 4 - Architecture Design
+**Phase 3 of 12: Risk Assessment**
+Next: Phase 4 - Architecture Design
+Agents: 2x code-explorer (parallel)
 
 **Goal**: Identify risks, edge cases, and security concerns
 
 **Actions**:
 
-1. Launch `code-explorer` agent focused on risk:
-   - "Identify security concerns, edge cases, and potential failure modes for [feature]"
-   - "Analyze dependencies and breaking change risks"
+1. **MANDATORY: Use Task tool to launch 2 code-explorer agents IN PARALLEL**:
 
-2. Review findings and compile risk list.
-3. Present risks to user. Ask if any should block or modify the design.
+   ```
+   Task tool call #1:
+     subagent_type: "dev-flow:code-explorer"
+     prompt: "Identify security concerns, authentication/authorization gaps, and data exposure risks for [feature]. Return specific file:line references for each risk.
+
+       CREATIVE EXPLORATION: Beyond known risk categories, freely explore and report:
+       - Novel or unusual risks specific to this codebase
+       - Architectural decisions that could become problematic at scale
+       - Hidden assumptions in the code that could break
+       - Risks the user probably hasn't thought about
+
+       Report these in a separate '## DISCOVERIES' section."
+
+   Task tool call #2:
+     subagent_type: "dev-flow:code-explorer"
+     prompt: "Identify edge cases, error conditions, and dependency/breaking change risks for [feature]. Return specific file:line references for each risk.
+
+       CREATIVE EXPLORATION: Beyond standard risk analysis, freely explore and report:
+       - Edge cases that seem untested
+       - Error handling gaps
+       - Potential race conditions or timing issues
+       - Breaking changes that could affect other features
+
+       Report these in a separate '## DISCOVERIES' section."
+   ```
+
+   **DO NOT analyze risks yourself. WAIT for BOTH agents to return.**
+
+2. Once agents return, compile their findings into a risk list:
+   - Security risks
+   - Edge cases and error conditions
+   - Dependency and breaking change risks
+   - **ALL discoveries from BOTH agents** (novel risks, insights)
+
+3. Present risks AND discoveries to user. Ask if any should block or modify the design.
 
 **When complete**: Proceed to Phase 4.
 
 ---
 
+## META-PHASE 2: DESIGN (Phases 4-6)
+
+---
+
 ## Phase 4 of 12: Architecture Design
 
-> **Current**: Phase 4 - Architecture Design
-> **Next**: Phase 5 - API Design
+**Phase 4 of 12: Architecture Design**
+Next: Phase 5 - Possibility Synthesis
+Agents: 3x code-architect (parallel)
 
-**Goal**: Design multiple implementation approaches with trade-offs
+**Goal**: Design multiple implementation approaches with trade-offs, AND discover extras
 
 **Actions**:
 
-1. Launch 2-3 `code-architect` agents in parallel with different focuses:
-   - **Minimal approach**: Smallest change, maximum reuse of existing code
-   - **Clean architecture**: Best maintainability, elegant abstractions
-   - **Pragmatic balance**: Speed + quality, practical trade-offs
+1. **MANDATORY: Use Task tool to launch 3 code-architect agents IN PARALLEL**:
 
-   Each agent should return:
-   - Proposed file structure
-   - Component responsibilities
-   - Data flow design
-   - Build sequence
+   ```
+   Task tool call #1:
+     subagent_type: "dev-flow:code-architect"
+     prompt: "Design MINIMAL approach: Simplest viable implementation, fast iteration, maximum reuse of existing code.
+       Return complete design including:
+       - Proposed file structure
+       - Component responsibilities
+       - Data flow design
+       - Build sequence
+       - Files to create/modify
 
-2. Review all approaches and form your recommendation.
-3. Present to user:
-   - Brief summary of each approach
-   - Trade-offs comparison
-   - **Your recommendation with reasoning**
-   - Ask user which approach they prefer
+       EXTRAS DISCOVERED: Beyond your assigned approach, also report:
+       - Alternative design choices you considered but didn't include
+       - Interesting patterns from the codebase that could be leveraged
+       - Trade-offs or considerations the user might not have thought of
+       - Techniques or approaches worth mentioning even if not used here
+       - Anything surprising you discovered during your exploration
 
-**When complete**: Proceed to Phase 5 (after user selects approach).
+       Report these in a separate '## EXTRAS DISCOVERED' section. Be thorough - these insights carry forward to Phase 5."
+
+   Task tool call #2:
+     subagent_type: "dev-flow:code-architect"
+     prompt: "Design PRAGMATIC approach: Balance of speed + quality + reasonable complexity.
+       Return complete design including:
+       - Proposed file structure
+       - Component responsibilities
+       - Data flow design
+       - Build sequence
+       - Files to create/modify
+
+       EXTRAS DISCOVERED: Beyond your assigned approach, also report:
+       - Alternative design choices you considered but didn't include
+       - Interesting patterns from the codebase that could be leveraged
+       - Trade-offs or considerations the user might not have thought of
+       - Techniques or approaches worth mentioning even if not used here
+       - Anything surprising you discovered during your exploration
+
+       Report these in a separate '## EXTRAS DISCOVERED' section. Be thorough - these insights carry forward to Phase 5."
+
+   Task tool call #3:
+     subagent_type: "dev-flow:code-architect"
+     prompt: "Design COMPREHENSIVE approach: Full-featured, best maintainability, elegant abstractions.
+       Return complete design including:
+       - Proposed file structure
+       - Component responsibilities
+       - Data flow design
+       - Build sequence
+       - Files to create/modify
+
+       EXTRAS DISCOVERED: Beyond your assigned approach, also report:
+       - Alternative design choices you considered but didn't include
+       - Interesting patterns from the codebase that could be leveraged
+       - Trade-offs or considerations the user might not have thought of
+       - Techniques or approaches worth mentioning even if not used here
+       - Anything surprising you discovered during your exploration
+
+       Report these in a separate '## EXTRAS DISCOVERED' section. Be thorough - these insights carry forward to Phase 5."
+   ```
+
+   **DO NOT design architectures yourself. WAIT for ALL agents to return.**
+
+2. Once agents return, synthesize their proposals into a comparison table.
+
+3. **DO NOT ask user to choose yet.** Present a brief summary of the 3 approaches, noting that a COMPREHENSIVE PLUS option will be synthesized in Phase 5, and user decides in Phase 6.
+
+**When complete**: Proceed to Phase 5 (NO user selection yet - that happens in Phase 6).
 
 ---
 
-## Phase 5 of 12: API Design
+## Phase 5 of 12: Possibility Synthesis
 
-> **Current**: Phase 5 - API Design
-> **Next**: Phase 6 - Test Strategy
+**Phase 5 of 12: Possibility Synthesis**
+Next: Phase 6 - Design Approval
+Agents: 1x code-architect
 
-**Goal**: Define API contracts and schemas
+**Goal**: Synthesize ALL extras from Phase 4 into a COMPREHENSIVE PLUS option
 
 **Actions**:
 
-1. Based on chosen architecture, launch `code-architect` agent in **API Design Mode**:
-   - Provide: Chosen architecture from Phase 4, API requirements
-   - Agent uses its **API Design Mode** section to produce contracts
+1. **MANDATORY: Use Task tool to launch 1 code-architect agent**:
 
-2. Agent will design:
-   - Endpoint/query definitions
-   - Request/response schemas
-   - Error handling patterns
-   - Authentication/authorization requirements
+   Pass ALL the extras from ALL 3 Phase 4 agents:
 
-3. Present API contract to user for approval.
+   ```
+   Task tool call:
+     subagent_type: "dev-flow:code-architect"
+     prompt: "SYNTHESIZE into COMPREHENSIVE PLUS: Take the COMPREHENSIVE approach and enhance it with valuable extras from ALL Phase 4 agents.
 
-**When complete**: Proceed to Phase 6.
+       INPUT - The 3 approaches from Phase 4:
+       [PASTE COMPREHENSIVE APPROACH]
+
+       INPUT - Extras from all 3 Phase 4 agents:
+       [PASTE ALL '## EXTRAS DISCOVERED' SECTIONS FROM PHASE 4]
+
+       Your task:
+       1. Start with the COMPREHENSIVE approach as the base
+       2. Incorporate valuable extras that enhance it (from MINIMAL and PRAGMATIC agents)
+       3. Create a COMPREHENSIVE PLUS design that is the best of all worlds
+       4. Note which extras were incorporated and why
+       5. Note which extras were NOT incorporated and why (trade-offs)
+
+       Return the COMPREHENSIVE PLUS design with:
+       - Complete file structure
+       - Component responsibilities
+       - Data flow design
+       - Build sequence
+       - API contracts (endpoints, schemas, error handling)
+       - Test strategy (test pyramid, critical paths, mocks)
+       - Files to create/modify
+
+       This becomes the 4th option for user to choose in Phase 6."
+   ```
+
+   **WAIT for agent to return.**
+
+2. Once agent returns, you now have 4 options:
+   - MINIMAL (from Phase 4)
+   - PRAGMATIC (from Phase 4)
+   - COMPREHENSIVE (from Phase 4)
+   - **COMPREHENSIVE PLUS** (synthesized here)
+
+**When complete**: Proceed to Phase 6 with all 4 options.
 
 ---
 
-## Phase 6 of 12: Test Strategy
+## Phase 6 of 12: Design Approval
 
-> **Current**: Phase 6 - Test Strategy
-> **Next**: Phase 7 - Backend Implementation
+**Phase 6 of 12: Design Approval**
+Next: Phase 7 - Backend Implementation
+Agents: None (Orchestrator presents designs)
 
-**Goal**: Plan testing approach before implementation
+**Goal**: Present ALL options, user makes ALL decisions
+
+**CHECKPOINT: This is the decision gate. User sees everything, chooses everything.**
 
 **Actions**:
 
-1. Launch `code-architect` agent in **Test Strategy Mode**:
-   - Provide: Architecture from Phase 4, risks from Phase 3
-   - Agent uses its **Test Strategy Mode** section to design test plan
+1. Present the COMPLETE OPTION LANDSCAPE to user:
 
-2. Agent will define:
-   - Test pyramid (unit/integration/E2E counts)
-   - Critical paths to test (tied to Phase 3 risks)
-   - Mock/fixture requirements
-   - Test commands for each layer
+   **The 4 Approaches**:
+   | Approach | Summary | Complexity | Trade-offs |
+   |----------|---------|------------|------------|
+   | MINIMAL | [brief] | Low | [key trade-off] |
+   | PRAGMATIC | [brief] | Medium | [key trade-off] |
+   | COMPREHENSIVE | [brief] | High | [key trade-off] |
+   | **COMPREHENSIVE PLUS** | [brief] | High+ | [what extras were added] |
 
-3. Present test plan to user.
+   **What COMPREHENSIVE PLUS includes that others don't**:
+   - [List extras incorporated from Phase 5]
 
-**IMPORTANT**: After Phase 6, wait for explicit user approval before proceeding to implementation.
+   **All Discoveries from Phases 1-5** (cumulative):
+   - Phase 1 discoveries
+   - Phase 2 discoveries
+   - Phase 3 discoveries (risks + novel findings)
+   - Phase 4 extras (anything NOT in Comprehensive Plus)
 
-**When complete**: Ask user to approve the full design (architecture + API + tests) before proceeding.
+2. Ask user to make decisions:
+   - "Which approach: MINIMAL, PRAGMATIC, COMPREHENSIVE, or COMPREHENSIVE PLUS?"
+   - "Any discoveries you want to address?"
+   - "Ready to proceed to implementation?"
+
+3. **DO NOT PROCEED until user explicitly chooses.**
+
+   If user requests changes or wants to explore more:
+   - Go back to relevant phase
+   - Re-run appropriate agents with updated requirements
+   - Return to Phase 6 for final decision
+
+4. Once user decides, compile the FINAL DESIGN for implementation.
+
+**When complete**: After explicit decision, proceed to Phase 7 with the final design.
+
+---
+
+## META-PHASE 3: IMPLEMENTATION (Phases 7-9)
 
 ---
 
 ## Phase 7 of 12: Backend Implementation
 
-> **Current**: Phase 7 - Backend Implementation
-> **Next**: Phase 8 - Frontend Implementation
+**Phase 7 of 12: Backend Implementation**
+Next: Phase 8 - Frontend Implementation
+Agents: 3x feature-writer (parallel)
 
-**Goal**: Implement backend services and APIs
+**Goal**: Implement backend services and APIs (approved in Phase 6)
 
-**DO NOT START WITHOUT USER APPROVAL**
+**DO NOT START WITHOUT USER APPROVAL FROM PHASE 6**
 
 **Actions**:
 
-1. Wait for explicit user approval of the design from Phases 4-6.
+1. Confirm user has approved the design from Phase 6.
 
-2. Launch `feature-writer` agent with backend focus:
-   - Agent auto-detects stack (Python/Node.js) from target files
-   - Uses its **Implementation Modes** section for stack-specific patterns
+2. **MANDATORY: Use Task tool to launch 3 feature-writer agents IN PARALLEL**:
 
-3. Provide to agent:
-   - Provide: Approved architecture, target files, API contracts
-   - Focus: Services, APIs, business logic, data access
+   ```
+   Task tool call #1:
+     subagent_type: "dev-flow:feature-writer"
+     prompt: "Implement DATA LAYER based on approved design:
+       [PASTE RELEVANT DESIGN SPECS]
+       Focus on:
+       - Data models and schemas
+       - Database access / repository layer
+       - Data validation
+       Follow project conventions. Create necessary files."
 
-4. Agent will:
-   - Create/modify backend files
-   - Follow project conventions
-   - Run tests after implementation
+   Task tool call #2:
+     subagent_type: "dev-flow:feature-writer"
+     prompt: "Implement BUSINESS LOGIC based on approved design:
+       [PASTE RELEVANT DESIGN SPECS]
+       Focus on:
+       - Core services and use cases
+       - Business rules and validation
+       - Error handling
+       Follow project conventions. Create necessary files."
 
-5. Review implementation and update todos.
+   Task tool call #3:
+     subagent_type: "dev-flow:feature-writer"
+     prompt: "Implement API LAYER based on approved design:
+       [PASTE RELEVANT DESIGN SPECS]
+       Focus on:
+       - API endpoints / routes
+       - Request/response handling
+       - Authentication/authorization
+       Follow project conventions. Create necessary files."
+   ```
+
+   **DO NOT write code yourself. WAIT for ALL agents to return.**
+
+3. Once ALL agents return, verify no conflicts between implementations.
+
+4. Update todos with implementation progress.
 
 **When complete**: Proceed to Phase 8.
 
@@ -326,28 +559,53 @@ Initial request: $ARGUMENTS
 
 ## Phase 8 of 12: Frontend Implementation
 
-> **Current**: Phase 8 - Frontend Implementation
-> **Next**: Phase 9 - Integration
+**Phase 8 of 12: Frontend Implementation**
+Next: Phase 9 - Integration
+Agents: 3x feature-writer (parallel)
 
 **Goal**: Implement frontend components and UI
 
 **Actions**:
 
-1. Launch `feature-writer` agent with frontend focus:
-   - Agent auto-detects platform (Next.js/React Native/Expo) from target files
-   - Uses its **Implementation Modes** section for platform-specific patterns
+1. **MANDATORY: Use Task tool to launch 3 feature-writer agents IN PARALLEL**:
 
-2. Provide to agent:
-   - Provide: Approved architecture, target files, component designs
-   - Focus: Components, UI, state management, API integration
+   ```
+   Task tool call #1:
+     subagent_type: "dev-flow:feature-writer"
+     prompt: "Implement UI COMPONENTS based on approved design:
+       [PASTE RELEVANT DESIGN SPECS]
+       Focus on:
+       - Reusable components
+       - Accessibility
+       - Design system patterns
+       Follow project conventions. Create necessary files."
 
-3. Agent will:
-   - Create/modify frontend files
-   - Follow project conventions (check patterns.yaml)
-   - Apply design system patterns
-   - Run tests after implementation
+   Task tool call #2:
+     subagent_type: "dev-flow:feature-writer"
+     prompt: "Implement STATE & DATA based on approved design:
+       [PASTE RELEVANT DESIGN SPECS]
+       Focus on:
+       - State management (stores)
+       - API integration hooks
+       - Data fetching and caching
+       Follow project conventions. Create necessary files."
 
-4. Review implementation and update todos.
+   Task tool call #3:
+     subagent_type: "dev-flow:feature-writer"
+     prompt: "Implement PAGES & NAVIGATION based on approved design:
+       [PASTE RELEVANT DESIGN SPECS]
+       Focus on:
+       - Page/screen components
+       - Navigation and routing
+       - Layout and composition
+       Follow project conventions. Create necessary files."
+   ```
+
+   **DO NOT write code yourself. WAIT for ALL agents to return.**
+
+2. Once ALL agents return, verify components integrate properly.
+
+3. Update todos with implementation progress.
 
 **When complete**: Proceed to Phase 9.
 
@@ -355,84 +613,121 @@ Initial request: $ARGUMENTS
 
 ## Phase 9 of 12: Integration
 
-> **Current**: Phase 9 - Integration
-> **Next**: Phase 10 - Quality Review
+**Phase 9 of 12: Integration**
+Next: Phase 10 - Quality Review
+Agents: 2x feature-writer (parallel)
 
 **Goal**: Connect components and finalize data flow
 
 **Actions**:
 
-1. Launch `feature-writer` agent with integration focus:
-   - Provide: Backend and frontend implementations
-   - Focus: Glue code, data pipelines, configuration
+1. **MANDATORY: Use Task tool to launch 2 feature-writer agents IN PARALLEL**:
 
-2. Agent will:
-   - Wire up components
-   - Add configuration
-   - Ensure data flows correctly
+   ```
+   Task tool call #1:
+     subagent_type: "dev-flow:feature-writer"
+     prompt: "Implement WIRING & DATA FLOW:
+       - Wire up frontend to backend APIs
+       - Ensure data binding and event handlers connected
+       - Verify end-to-end data transformations
+       Follow project conventions."
 
-3. Run integration tests.
+   Task tool call #2:
+     subagent_type: "dev-flow:feature-writer"
+     prompt: "Implement CONFIGURATION & TESTS:
+       - Add configuration and environment variables
+       - Write integration tests
+       - Write smoke tests for critical paths
+       Follow project conventions."
+   ```
+
+   **DO NOT write integration code yourself. WAIT for ALL agents to return.**
+
+2. Once agents return, run the smoke tests to verify integration.
 
 **When complete**: Proceed to Phase 10.
 
 ---
 
+## META-PHASE 4: VALIDATION (Phases 10-12)
+
+---
+
 ## Phase 10 of 12: Quality Review
 
-> **Current**: Phase 10 - Quality Review
-> **Next**: Phase 11 - Test Execution
+**Phase 10 of 12: Quality Review**
+Next: Phase 11 - Test Execution & Fixes
+Agents: 3x code-reviewer (parallel)
 
 **Goal**: Catch bugs, security issues, performance problems, and convention violations
 
 **Actions**:
 
-### 10a. Code Quality Review
+1. **MANDATORY: Use Task tool to launch 3 code-reviewer agents IN PARALLEL**:
 
-1. Launch 3 `code-reviewer` agents in parallel with different focuses:
-   - **Simplicity/DRY/Elegance**: Code quality and maintainability
-   - **Bugs/Security**: Functional correctness and vulnerabilities
-   - **Performance/Conventions**: Frontend perf (if applicable) + project patterns
+   ```
+   Task tool call #1:
+     subagent_type: "dev-flow:code-reviewer"
+     prompt: "Review for CODE QUALITY: Clean code, DRY, proper abstractions, simplicity. Use confidence scoring (0-100). Only report issues with confidence >= 80. Provide specific file:line references."
 
-   Each agent should:
-   - Use confidence scoring (0-100)
-   - Only report issues with confidence >= 80
-   - Provide specific file:line references
-   - Apply **Frontend Performance Checklist** if reviewing frontend code
-   - Apply **Test Quality Checklist** if reviewing test files
+   Task tool call #2:
+     subagent_type: "dev-flow:code-reviewer"
+     prompt: "Review for BUGS & SECURITY: Logic errors, null handling, race conditions, vulnerabilities, auth issues. Use confidence scoring (0-100). Only report issues with confidence >= 80. Provide specific file:line references."
 
-### 10b. Consolidate & Fix
+   Task tool call #3:
+     subagent_type: "dev-flow:code-reviewer"
+     prompt: "Review for PERFORMANCE & CONVENTIONS: Frontend perf, bundle size, memory leaks, project patterns. Use confidence scoring (0-100). Only report issues with confidence >= 80. Provide specific file:line references."
+   ```
 
-2. Consolidate findings and identify highest severity issues.
-3. Present findings to user and ask what they want to fix.
-4. If fixes needed, launch `feature-writer` agent to address them.
+   **DO NOT review code yourself. WAIT for ALL agents to return.**
+
+2. Once agents return, consolidate findings and identify highest severity issues.
+
+3. Categorize issues by domain:
+   - **Backend issues** → will be fixed by feature-writer (backend focus)
+   - **Frontend issues** → will be fixed by feature-writer (frontend focus)
+
+4. Present findings to user and ask what they want to fix.
 
 **When complete**: Proceed to Phase 11.
 
 ---
 
-## Phase 11 of 12: Test Execution
+## Phase 11 of 12: Test Execution & Fixes
 
-> **Current**: Phase 11 - Test Execution
-> **Next**: Phase 12 - Summary
+**Phase 11 of 12: Test Execution & Fixes**
+Next: Phase 12 - Summary
+Agents: 2x feature-writer (parallel)
 
-**Goal**: Run tests and validate coverage
+**Goal**: Fix review issues, run tests, verify everything works
 
 **Actions**:
 
-1. Launch `feature-writer` agent in **Test Execution Mode**:
-   - Agent uses its **Test Execution & Fix Loop** section
-   - Runs test commands defined in Phase 6
+1. **MANDATORY: Use Task tool to launch 2 feature-writer agents IN PARALLEL**:
 
-2. Agent will:
-   - Execute all test layers (unit, integration, E2E if applicable)
-   - Triage any failures
-   - Fix issues with minimal changes
-   - Re-run until all tests pass
+   Distribute the issues from Phase 10 to the appropriate focus:
 
-3. Report final results:
-   - Tests passed/failed counts
-   - Issues fixed (if any)
-   - Coverage summary
+   ```
+   Task tool call #1:
+     subagent_type: "dev-flow:feature-writer"
+     prompt: "Fix BACKEND-RELATED issues from review and run tests:
+       [LIST BACKEND ISSUES: API, data layer, business logic, etc.]
+       After fixes, run relevant unit and integration tests. Report results."
+
+   Task tool call #2:
+     subagent_type: "dev-flow:feature-writer"
+     prompt: "Fix FRONTEND-RELATED issues from review and run tests:
+       [LIST FRONTEND ISSUES: components, state, performance, etc.]
+       After fixes, run relevant unit and E2E tests. Report results."
+   ```
+
+   **DO NOT fix code yourself. WAIT for ALL agents to return.**
+
+2. Once agents return, verify all tests pass.
+
+3. If tests fail, launch additional agents to fix failures (same domain split).
+
+4. Present final test results to user.
 
 **When complete**: Proceed to Phase 12.
 
@@ -440,20 +735,42 @@ Initial request: $ARGUMENTS
 
 ## Phase 12 of 12: Summary
 
-> **Current**: Phase 12 - Summary
-> **Next**: Done!
+**Phase 12 of 12: Summary**
+Next: Done!
+Agents: None (Orchestrator summarizes agent outputs)
 
 **Goal**: Document what was accomplished
 
-**Actions**:
+**Actions** (This is the ONLY phase where you work directly):
 
 1. Mark all todos complete.
-2. Summarize:
-   - What was built
-   - Key architectural decisions
-   - Files created/modified
-   - Test coverage achieved
-   - Suggested next steps (deployment, monitoring, etc.)
+
+2. Synthesize all agent outputs into a comprehensive summary:
+
+   **What Was Built**:
+   - Architecture approach chosen (from Phase 6)
+   - Backend components (from Phase 7)
+   - Frontend components (from Phase 8)
+   - Integration (from Phase 9)
+
+   **Key Design Decisions**:
+   - Selected approach and rationale
+   - Trade-offs made
+   - Discoveries that influenced design
+
+   **Files Created/Modified**:
+   - Backend files (from feature-writer outputs)
+   - Frontend files (from feature-writer outputs)
+
+   **Test Results**:
+   - Tests passing? (from Phase 11)
+   - Issues found & fixed (from Phase 10-11)
+
+3. Suggest next steps:
+   - Deployment considerations
+   - Monitoring setup
+   - Future enhancements
+   - Technical debt to address
 
 **When complete**: Feature development finished!
 
@@ -472,14 +789,14 @@ All agents have access to ALL 19 skills for maximum flexibility.
 ### Design Agent
 **code-architect** (green, opus):
 - Designs implementation blueprints with confident decisions
-- **Modes**: Architecture Design (Phase 4), API Design (Phase 5), Test Strategy (Phase 6)
+- **Modes**: Architecture Design (Phase 4), Synthesis (Phase 5)
 - Tools: READ-ONLY
-- Used in: Phases 4-6
+- Used in: Phases 4-5
 
 ### Implementation Agent
 **feature-writer** (green, opus):
 - Implements all approved designs across all stacks
-- **Modes**: Backend Python, Frontend Next.js, Mobile Expo, Test Execution
+- **Modes**: Backend, Frontend, Integration, Test Execution
 - Tools: **WRITE** (Glob, Grep, Read, Edit, Write, Bash, TodoWrite)
 - Used in: Phases 7-9, 11
 

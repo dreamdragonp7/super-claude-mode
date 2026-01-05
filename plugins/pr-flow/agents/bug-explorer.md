@@ -3,8 +3,8 @@ name: bug-explorer
 description: Deeply analyzes code related to PR changes by tracing execution paths, mapping architecture, and understanding patterns to inform review efforts. Used in Phase 1 to establish context.
 model: opus
 color: yellow
+tools: Glob, Grep, LS, Read, NotebookRead, WebFetch, TodoWrite, WebSearch
 skills: code-review-excellence, debugging-strategies, error-handling-patterns, git-advanced-workflows, e2e-testing-patterns, auth-implementation-patterns
-tools: ["Glob", "Grep", "LS", "Read", "NotebookRead", "WebFetch", "TodoWrite", "WebSearch"]
 ---
 
 You are an expert code analyst specializing in tracing and understanding codebases to inform PR review.

@@ -34,7 +34,7 @@ Task tool → subagent_type: "ml-flow:<agent-name>"
 | 2 | Data Architecture | 2-3 | ml-explorer (parallel, + DISCOVERIES) |
 | 3 | Risk Assessment | 2 | ml-explorer + data-scientist (parallel, + DISCOVERIES) |
 | 4 | Model Architecture | 3 | ml-architect: MINIMAL, PRAGMATIC, COMPREHENSIVE (+ EXTRAS) |
-| 5 | Possibility Aggregation | 2+2 | ml-architect ×2 → data-scientist ×2 (SEQUENTIAL) |
+| 5 | Possibility Synthesis | 1 | data-scientist (synthesizes Phase 4 → Comprehensive Plus) |
 | 6 | Design Approval | 0 | None (user decides everything) |
 | 7 | Model Implementation | 3 | **ml-engineer** (parallel) |
 | 8 | Training Implementation | 3 | **mlops-engineer** (parallel) |
@@ -371,104 +371,59 @@ Agents: 3x ml-architect (parallel)
 
 ---
 
-## Phase 5 of 12: Possibility Aggregation
+## Phase 5 of 12: Possibility Synthesis
 
-**Phase 5 of 12: Possibility Aggregation**
+**Phase 5 of 12: Possibility Synthesis**
 Next: Phase 6 - Design Approval
-Agents: ml-architect ×2 → data-scientist ×2 (SEQUENTIAL)
+Agents: 1x data-scientist
 
-**Goal**: Aggregate ALL extras from ALL Phase 4 agents into a comprehensive possibility landscape
-
-**IMPORTANT: This phase is SEQUENTIAL, not parallel. Nothing is discarded - all insights preserved.**
+**Goal**: Synthesize ALL extras from Phase 4 into a COMPREHENSIVE PLUS option
 
 **Actions**:
 
-### STEP 1: Synthesize All Extras (ml-architect)
-
-1. **MANDATORY: Use Task tool to launch 2 ml-architect agents IN PARALLEL**:
+1. **MANDATORY: Use Task tool to launch 1 data-scientist agent**:
 
    Pass ALL the extras from ALL 3 Phase 4 agents:
 
    ```
-   Task tool call #1:
-     subagent_type: "ml-flow:ml-architect"
-     prompt: "SYNTHESIZE DESIGN EXTRAS from Phase 4 into organized categories.
+   Task tool call:
+     subagent_type: "ml-flow:data-scientist"
+     prompt: "SYNTHESIZE into COMPREHENSIVE PLUS: Take the COMPREHENSIVE approach and enhance it with valuable extras from ALL Phase 4 agents.
+
+       INPUT - The COMPREHENSIVE approach from Phase 4:
+       [PASTE COMPREHENSIVE APPROACH]
 
        INPUT - Extras from all 3 Phase 4 agents:
        [PASTE ALL '## EXTRAS DISCOVERED' SECTIONS FROM PHASE 4]
 
        Your task:
-       1. Aggregate all extras into thematic categories (e.g., 'Architecture Options', 'Training Techniques', 'Risk Mitigations', 'Optimizations')
-       2. Identify which extras complement which approach (MINIMAL/PRAGMATIC/COMPREHENSIVE)
-       3. Flag any contradictions or trade-offs between extras
-       4. Note which extras could be combined regardless of chosen approach
+       1. Start with the COMPREHENSIVE approach as the base
+       2. Incorporate valuable extras that enhance it (from MINIMAL and PRAGMATIC agents)
+       3. Create a COMPREHENSIVE PLUS design that is the best of all worlds
+       4. Note which extras were incorporated and why
+       5. Note which extras were NOT incorporated and why (trade-offs)
 
-       Return a structured 'POSSIBILITY MAP' organized by category."
+       Return the COMPREHENSIVE PLUS design with:
+       - Complete model architecture with dimensions
+       - Training strategy (loss, optimizer, schedule, TBPTT if needed)
+       - Infrastructure (experiment tracking, pipelines, checkpointing)
+       - Evaluation strategy (metrics, validation approach)
+       - Input/output specifications
+       - Resource requirements
+       - Files to create/modify
 
-   Task tool call #2:
-     subagent_type: "ml-flow:ml-architect"
-     prompt: "DESIGN INFRASTRUCTURE OPTIONS that support ALL 3 approaches from Phase 4.
-
-       INPUT - The 3 approaches from Phase 4:
-       [PASTE BRIEF SUMMARY OF MINIMAL, PRAGMATIC, COMPREHENSIVE]
-
-       Design flexible infrastructure that can support any choice:
-       - Experiment tracking strategy (tool selection with rationale)
-       - Pipeline structure that works for all 3 complexity levels
-       - Checkpointing and artifact storage
-       - Resource allocation tiers (min/recommended/max)
-
-       Return infrastructure design as OPTIONS, not a single choice - user decides in Phase 6."
+       This becomes the 4th option for user to choose in Phase 6."
    ```
 
-   **WAIT for BOTH ml-architect agents to return before proceeding to Step 2.**
+   **WAIT for agent to return.**
 
-### STEP 2: Validate & Enhance (data-scientist)
+2. Once agent returns, you now have 4 options:
+   - MINIMAL (from Phase 4)
+   - PRAGMATIC (from Phase 4)
+   - COMPREHENSIVE (from Phase 4)
+   - **COMPREHENSIVE PLUS** (synthesized here)
 
-2. **MANDATORY: Use Task tool to launch 2 data-scientist agents IN PARALLEL**:
-
-   ```
-   Task tool call #1:
-     subagent_type: "ml-flow:data-scientist"
-     prompt: "VALIDATE the aggregated possibility map from Step 1:
-       [PASTE POSSIBILITY MAP FROM STEP 1]
-
-       For each category of extras:
-       - Are the statistical claims valid?
-       - Any extras that are mutually exclusive?
-       - Which extras have the highest expected value?
-       - Any missing considerations from a statistical perspective?
-
-       Return validated map with your annotations + any NEW discoveries."
-
-   Task tool call #2:
-     subagent_type: "ml-flow:data-scientist"
-     prompt: "DESIGN EVALUATION STRATEGY that works for all 3 approaches:
-       [PASTE INFRASTRUCTURE OPTIONS FROM STEP 1]
-
-       Design flexible evaluation:
-       - Primary and secondary metrics with thresholds
-       - Validation strategy options (holdout vs cross-val vs walk-forward)
-       - How evaluation differs across MINIMAL/PRAGMATIC/COMPREHENSIVE
-       - Statistical requirements for each approach
-
-       Return evaluation specification as OPTIONS - user decides in Phase 6.
-
-       Also report any DISCOVERIES - things worth considering that weren't in Phase 4."
-   ```
-
-   **WAIT for BOTH data-scientist agents to return.**
-
-3. Compile the COMPLETE POSSIBILITY LANDSCAPE:
-   - All 3 approaches (MINIMAL, PRAGMATIC, COMPREHENSIVE)
-   - All extras from Phase 4 organized by category
-   - Infrastructure options
-   - Evaluation options
-   - Data-scientist validations and new discoveries
-
-4. **DO NOT filter or recommend.** Present everything to user in Phase 6.
-
-**When complete**: Proceed to Phase 6 with the full possibility landscape.
+**When complete**: Proceed to Phase 6 with all 4 options.
 
 ---
 
@@ -484,48 +439,29 @@ Agents: None (Orchestrator presents designs)
 
 **Actions**:
 
-1. Present the COMPLETE POSSIBILITY LANDSCAPE to user:
+1. Present the COMPLETE OPTION LANDSCAPE to user:
 
-   **The 3 Approaches** (from Phase 4):
-   | Approach | Summary | Complexity | Resources |
-   |----------|---------|------------|-----------|
-   | MINIMAL | [brief] | Low | [estimate] |
-   | PRAGMATIC | [brief] | Medium | [estimate] |
-   | COMPREHENSIVE | [brief] | High | [estimate] |
+   **The 4 Approaches**:
+   | Approach | Summary | Complexity | Trade-offs |
+   |----------|---------|------------|------------|
+   | MINIMAL | [brief] | Low | [key trade-off] |
+   | PRAGMATIC | [brief] | Medium | [key trade-off] |
+   | COMPREHENSIVE | [brief] | High | [key trade-off] |
+   | **COMPREHENSIVE PLUS** | [brief] | High+ | [what extras were added] |
 
-   **Possibility Map** (extras from ALL Phase 4 agents, organized in Phase 5):
-   - Category 1: [list of extras with which approaches they complement]
-   - Category 2: [list of extras]
-   - Category 3: [list of extras]
-   - ...
-
-   **Infrastructure Options** (from Phase 5):
-   - Experiment tracking options
-   - Pipeline structure options
-   - Resource allocation tiers
-
-   **Evaluation Options** (from Phase 5 - data-scientist):
-   - Metric options
-   - Validation strategy options
-
-   **Data-Scientist Validations** (from Phase 5):
-   - Statistical validations
-   - New discoveries
-   - Recommendations
+   **What COMPREHENSIVE PLUS includes that others don't**:
+   - [List extras incorporated from Phase 5]
 
    **All Discoveries from Phases 1-5** (cumulative):
    - Phase 1 discoveries
    - Phase 2 discoveries
    - Phase 3 discoveries (risks + novel findings)
-   - Phase 4 extras
-   - Phase 5 new discoveries
+   - Phase 4 extras (anything NOT in Comprehensive Plus)
 
 2. Ask user to make decisions:
-   - "Which approach: MINIMAL, PRAGMATIC, or COMPREHENSIVE?"
-   - "Which extras do you want to include?" (can mix and match)
-   - "Which infrastructure options?"
-   - "Which evaluation strategy?"
+   - "Which approach: MINIMAL, PRAGMATIC, COMPREHENSIVE, or COMPREHENSIVE PLUS?"
    - "Any discoveries you want to address?"
+   - "Ready to proceed to implementation?"
 
 3. **DO NOT PROCEED until user explicitly chooses.**
 
@@ -534,11 +470,7 @@ Agents: None (Orchestrator presents designs)
    - Re-run appropriate agents with updated requirements
    - Return to Phase 6 for final decision
 
-4. Once user decides, compile the FINAL DESIGN for implementation:
-   - Chosen approach + selected extras
-   - Selected infrastructure options
-   - Selected evaluation strategy
-   - Files to create/modify for ml-engineer and mlops-engineer
+4. Once user decides, compile the FINAL DESIGN for implementation.
 
 **When complete**: After explicit decisions, proceed to Phase 7 with the final design.
 
