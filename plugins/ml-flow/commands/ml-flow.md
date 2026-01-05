@@ -1,6 +1,7 @@
 ---
-description: Guided 12-phase ML development with model architecture, training pipelines, experiment tracking, and evaluation
-argument-hint: Optional ML task description or --capsule <slug>
+description: "Guided 12-phase ML development with model architecture, training pipelines, experiment tracking, and evaluation"
+argument-hint: "[ml-task or --capsule <slug>]"
+allowed-tools: ["Bash", "Glob", "Grep", "Read", "Task", "TodoWrite"]
 ---
 
 # ML Development Workflow

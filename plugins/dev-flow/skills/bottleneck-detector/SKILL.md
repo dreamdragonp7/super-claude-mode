@@ -1,16 +1,8 @@
 ---
-description: This skill enables claude to detect and resolve performance bottlenecks
-  in applications. it analyzes cpu, memory, i/o, and database performance to identify
-  areas of concern. use this skill when you need to diagnose slow application performance,
-  op...
-allowed-tools:
-- Read
-- Bash
-- Grep
-- Glob
 name: bottleneck-detector
-license: MIT
+description: Detect and resolve performance bottlenecks in applications. Analyzes CPU, memory, I/O, and database performance to identify areas of concern. Use when diagnosing slow application performance or optimizing resource usage.
 ---
+
 ## Overview
 
 This skill empowers Claude to identify and address performance bottlenecks across different layers of an application. By pinpointing performance issues in CPU, memory, I/O, and database operations, it assists in optimizing resource utilization and improving overall application speed and responsiveness.

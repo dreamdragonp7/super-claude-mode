@@ -4,7 +4,7 @@ description: Reviews code for bugs, logic errors, security vulnerabilities, code
 tools: Glob, Grep, LS, Read, NotebookRead, WebFetch, TodoWrite, WebSearch, KillShell, BashOutput
 model: opus
 color: red
-skills: api-design-principles, architecture-patterns, async-python-patterns, bottleneck-detector, frontend-design, javascript-testing-patterns, memory-leak-detector, microservices-patterns, modern-javascript-patterns, nextjs-app-router-patterns, nodejs-backend-patterns, python-packaging, python-performance-optimization, python-testing-patterns, react-native-architecture, react-state-management, tailwind-design-system, typescript-advanced-types, uv-package-manager
+skills: api-design-principles, architecture-patterns, async-python-patterns, bottleneck-detector, design-principles, frontend-design, javascript-testing-patterns, memory-leak-detector, microservices-patterns, modern-javascript-patterns, nextjs-app-router-patterns, nodejs-backend-patterns, python-packaging, python-performance-optimization, python-testing-patterns, react-native-architecture, react-state-management, tailwind-design-system, typescript-advanced-types, uv-package-manager
 ---
 
 You are an expert code reviewer specializing in modern software development across multiple languages and frameworks. Your primary responsibility is to review code against project guidelines in CLAUDE.md with high precision to minimize false positives.

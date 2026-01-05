@@ -1,18 +1,8 @@
 ---
-description: This skill enables claude to detect potential memory leaks and analyze
-  memory usage patterns in code. it is triggered when the user requests "detect memory
-  leaks", "analyze memory usage", or similar phrases related to memory leak detection
-  and per...
-allowed-tools:
-- Read
-- Write
-- Edit
-- Grep
-- Glob
-- Bash
 name: memory-leak-detector
-license: MIT
+description: Detect potential memory leaks and analyze memory usage patterns in code. Use when diagnosing memory issues, finding event listener leaks, or analyzing cache growth patterns.
 ---
+
 ## Overview
 
 This skill helps you identify and resolve memory leaks in your code. By analyzing your code for common memory leak patterns, it can help you improve the performance and stability of your application.

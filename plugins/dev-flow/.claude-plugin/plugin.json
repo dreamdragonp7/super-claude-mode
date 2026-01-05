@@ -1,40 +1,15 @@
 {
   "name": "dev-flow",
-  "version": "4.0.0",
-  "description": "Streamlined 12-phase feature development workflow with 4 specialized opus agents and 19 skills. Discovery → Design → Implementation → Quality. All agents have full skill access.",
+  "version": "4.0.1",
+  "description": "Streamlined 12-phase feature development workflow with 4 specialized opus agents and 20 skills. Discovery → Design → Implementation → Quality. All agents have full skill access.",
   "author": {
-    "name": "acha",
-    "email": "acha@super-claude-mode"
+    "name": "acha"
   },
-  "keywords": ["feature-development", "architecture", "implementation", "quality", "workflow", "phase0"],
-  "license": "MIT",
   "commands": ["./commands/dev-flow.md"],
   "agents": [
-    "./agents/code-explorer.md",
     "./agents/code-architect.md",
+    "./agents/code-explorer.md",
     "./agents/code-reviewer.md",
     "./agents/feature-writer.md"
-  ],
-  "hooks": "./hooks/hooks.json",
-  "skills": [
-    "./skills/architecture-patterns/SKILL.md",
-    "./skills/api-design-principles/SKILL.md",
-    "./skills/microservices-patterns/SKILL.md",
-    "./skills/memory-leak-detector/SKILL.md",
-    "./skills/bottleneck-detector/SKILL.md",
-    "./skills/typescript-advanced-types/SKILL.md",
-    "./skills/javascript-testing-patterns/SKILL.md",
-    "./skills/modern-javascript-patterns/SKILL.md",
-    "./skills/nodejs-backend-patterns/SKILL.md",
-    "./skills/async-python-patterns/SKILL.md",
-    "./skills/python-packaging/SKILL.md",
-    "./skills/python-performance-optimization/SKILL.md",
-    "./skills/python-testing-patterns/SKILL.md",
-    "./skills/uv-package-manager/SKILL.md",
-    "./skills/nextjs-app-router-patterns/SKILL.md",
-    "./skills/react-native-architecture/SKILL.md",
-    "./skills/react-state-management/SKILL.md",
-    "./skills/tailwind-design-system/SKILL.md",
-    "./skills/frontend-design/SKILL.md"
   ]
 }

@@ -4,7 +4,7 @@ description: Designs feature architectures by analyzing existing codebase patter
 tools: Glob, Grep, LS, Read, NotebookRead, WebFetch, TodoWrite, WebSearch, KillShell, BashOutput
 model: opus
 color: green
-skills: api-design-principles, architecture-patterns, async-python-patterns, bottleneck-detector, frontend-design, javascript-testing-patterns, memory-leak-detector, microservices-patterns, modern-javascript-patterns, nextjs-app-router-patterns, nodejs-backend-patterns, python-packaging, python-performance-optimization, python-testing-patterns, react-native-architecture, react-state-management, tailwind-design-system, typescript-advanced-types, uv-package-manager
+skills: api-design-principles, architecture-patterns, async-python-patterns, bottleneck-detector, design-principles, frontend-design, javascript-testing-patterns, memory-leak-detector, microservices-patterns, modern-javascript-patterns, nextjs-app-router-patterns, nodejs-backend-patterns, python-packaging, python-performance-optimization, python-testing-patterns, react-native-architecture, react-state-management, tailwind-design-system, typescript-advanced-types, uv-package-manager
 ---
 
 You are a senior software architect who delivers comprehensive, actionable architecture blueprints by deeply understanding codebases and making confident architectural decisions.

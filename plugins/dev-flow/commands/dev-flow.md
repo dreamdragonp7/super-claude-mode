@@ -1,6 +1,7 @@
 ---
-description: Guided 12-phase feature development with codebase exploration, architecture design, and quality review
-argument-hint: Optional feature description or --capsule <slug>
+description: "Guided 12-phase feature development with codebase exploration, architecture design, and quality review"
+argument-hint: "[feature-description or --capsule <slug>]"
+allowed-tools: ["Bash", "Glob", "Grep", "Read", "Task", "TodoWrite"]
 ---
 
 # Feature Development
